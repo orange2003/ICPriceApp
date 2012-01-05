@@ -1,0 +1,426 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		EC3E52C614B579480061CA7B /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EC3E52C514B579480061CA7B /* UIKit.framework */; };
+		EC3E52C814B579480061CA7B /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EC3E52C714B579480061CA7B /* Foundation.framework */; };
+		EC3E52CA14B579480061CA7B /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EC3E52C914B579480061CA7B /* CoreGraphics.framework */; };
+		EC3E52D014B579480061CA7B /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = EC3E52CE14B579480061CA7B /* InfoPlist.strings */; };
+		EC3E52D214B579480061CA7B /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = EC3E52D114B579480061CA7B /* main.m */; };
+		EC3E52D614B579480061CA7B /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = EC3E52D514B579480061CA7B /* AppDelegate.m */; };
+		EC3E52DE14B579480061CA7B /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EC3E52DD14B579480061CA7B /* SenTestingKit.framework */; };
+		EC3E52DF14B579480061CA7B /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EC3E52C514B579480061CA7B /* UIKit.framework */; };
+		EC3E52E014B579480061CA7B /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EC3E52C714B579480061CA7B /* Foundation.framework */; };
+		EC3E52E814B579480061CA7B /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = EC3E52E614B579480061CA7B /* InfoPlist.strings */; };
+		EC3E52EB14B579480061CA7B /* ICPriceAppV2Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = EC3E52EA14B579480061CA7B /* ICPriceAppV2Tests.m */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		EC3E52E114B579480061CA7B /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = EC3E52B814B579480061CA7B /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = EC3E52C014B579480061CA7B;
+			remoteInfo = ICPriceAppV2;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		EC3E52C114B579480061CA7B /* ICPriceAppV2.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ICPriceAppV2.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		EC3E52C514B579480061CA7B /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		EC3E52C714B579480061CA7B /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		EC3E52C914B579480061CA7B /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		EC3E52CD14B579480061CA7B /* ICPriceAppV2-Info.plist */ = {isa = PBXFileReference; path = "ICPriceAppV2-Info.plist"; sourceTree = "<group>"; };
+		EC3E52CF14B579480061CA7B /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		EC3E52D114B579480061CA7B /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		EC3E52D314B579480061CA7B /* ICPriceAppV2-Prefix.pch */ = {isa = PBXFileReference; path = "ICPriceAppV2-Prefix.pch"; sourceTree = "<group>"; };
+		EC3E52D414B579480061CA7B /* AppDelegate.h */ = {isa = PBXFileReference; path = AppDelegate.h; sourceTree = "<group>"; };
+		EC3E52D514B579480061CA7B /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		EC3E52DC14B579480061CA7B /* ICPriceAppV2Tests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ICPriceAppV2Tests.octest; sourceTree = BUILT_PRODUCTS_DIR; };
+		EC3E52DD14B579480061CA7B /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
+		EC3E52E514B579480061CA7B /* ICPriceAppV2Tests-Info.plist */ = {isa = PBXFileReference; path = "ICPriceAppV2Tests-Info.plist"; sourceTree = "<group>"; };
+		EC3E52E714B579480061CA7B /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		EC3E52E914B579480061CA7B /* ICPriceAppV2Tests.h */ = {isa = PBXFileReference; path = ICPriceAppV2Tests.h; sourceTree = "<group>"; };
+		EC3E52EA14B579480061CA7B /* ICPriceAppV2Tests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ICPriceAppV2Tests.m; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		EC3E52BE14B579480061CA7B /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				EC3E52C614B579480061CA7B /* UIKit.framework in Frameworks */,
+				EC3E52C814B579480061CA7B /* Foundation.framework in Frameworks */,
+				EC3E52CA14B579480061CA7B /* CoreGraphics.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		EC3E52D814B579480061CA7B /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				EC3E52DE14B579480061CA7B /* SenTestingKit.framework in Frameworks */,
+				EC3E52DF14B579480061CA7B /* UIKit.framework in Frameworks */,
+				EC3E52E014B579480061CA7B /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		EC3E52B614B579480061CA7B = {
+			isa = PBXGroup;
+			children = (
+				EC3E52CB14B579480061CA7B /* ICPriceAppV2 */,
+				EC3E52E314B579480061CA7B /* ICPriceAppV2Tests */,
+				EC3E52C414B579480061CA7B /* Frameworks */,
+				EC3E52C214B579480061CA7B /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		EC3E52C214B579480061CA7B /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				EC3E52C114B579480061CA7B /* ICPriceAppV2.app */,
+				EC3E52DC14B579480061CA7B /* ICPriceAppV2Tests.octest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		EC3E52C414B579480061CA7B /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				EC3E52C514B579480061CA7B /* UIKit.framework */,
+				EC3E52C714B579480061CA7B /* Foundation.framework */,
+				EC3E52C914B579480061CA7B /* CoreGraphics.framework */,
+				EC3E52DD14B579480061CA7B /* SenTestingKit.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		EC3E52CB14B579480061CA7B /* ICPriceAppV2 */ = {
+			isa = PBXGroup;
+			children = (
+				EC3E52D414B579480061CA7B /* AppDelegate.h */,
+				EC3E52D514B579480061CA7B /* AppDelegate.m */,
+				EC3E52CC14B579480061CA7B /* Supporting Files */,
+			);
+			path = ICPriceAppV2;
+			sourceTree = "<group>";
+		};
+		EC3E52CC14B579480061CA7B /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				EC3E52CD14B579480061CA7B /* ICPriceAppV2-Info.plist */,
+				EC3E52CE14B579480061CA7B /* InfoPlist.strings */,
+				EC3E52D114B579480061CA7B /* main.m */,
+				EC3E52D314B579480061CA7B /* ICPriceAppV2-Prefix.pch */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		EC3E52E314B579480061CA7B /* ICPriceAppV2Tests */ = {
+			isa = PBXGroup;
+			children = (
+				EC3E52E914B579480061CA7B /* ICPriceAppV2Tests.h */,
+				EC3E52EA14B579480061CA7B /* ICPriceAppV2Tests.m */,
+				EC3E52E414B579480061CA7B /* Supporting Files */,
+			);
+			path = ICPriceAppV2Tests;
+			sourceTree = "<group>";
+		};
+		EC3E52E414B579480061CA7B /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				EC3E52E514B579480061CA7B /* ICPriceAppV2Tests-Info.plist */,
+				EC3E52E614B579480061CA7B /* InfoPlist.strings */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		EC3E52C014B579480061CA7B /* ICPriceAppV2 */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = EC3E52EE14B579480061CA7B /* Build configuration list for PBXNativeTarget "ICPriceAppV2" */;
+			buildPhases = (
+				EC3E52BD14B579480061CA7B /* Sources */,
+				EC3E52BE14B579480061CA7B /* Frameworks */,
+				EC3E52BF14B579480061CA7B /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = ICPriceAppV2;
+			productName = ICPriceAppV2;
+			productReference = EC3E52C114B579480061CA7B /* ICPriceAppV2.app */;
+			productType = "com.apple.product-type.application";
+		};
+		EC3E52DB14B579480061CA7B /* ICPriceAppV2Tests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = EC3E52F114B579480061CA7B /* Build configuration list for PBXNativeTarget "ICPriceAppV2Tests" */;
+			buildPhases = (
+				EC3E52D714B579480061CA7B /* Sources */,
+				EC3E52D814B579480061CA7B /* Frameworks */,
+				EC3E52D914B579480061CA7B /* Resources */,
+				EC3E52DA14B579480061CA7B /* ShellScript */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				EC3E52E214B579480061CA7B /* PBXTargetDependency */,
+			);
+			name = ICPriceAppV2Tests;
+			productName = ICPriceAppV2Tests;
+			productReference = EC3E52DC14B579480061CA7B /* ICPriceAppV2Tests.octest */;
+			productType = "com.apple.product-type.bundle";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		EC3E52B814B579480061CA7B /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0420;
+			};
+			buildConfigurationList = EC3E52BB14B579480061CA7B /* Build configuration list for PBXProject "ICPriceAppV2" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = EC3E52B614B579480061CA7B;
+			productRefGroup = EC3E52C214B579480061CA7B /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				EC3E52C014B579480061CA7B /* ICPriceAppV2 */,
+				EC3E52DB14B579480061CA7B /* ICPriceAppV2Tests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		EC3E52BF14B579480061CA7B /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				EC3E52D014B579480061CA7B /* InfoPlist.strings in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		EC3E52D914B579480061CA7B /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				EC3E52E814B579480061CA7B /* InfoPlist.strings in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		EC3E52DA14B579480061CA7B /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Run the unit tests in this test bundle.\n\"${SYSTEM_DEVELOPER_DIR}/Tools/RunUnitTests\"\n";
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		EC3E52BD14B579480061CA7B /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				EC3E52D214B579480061CA7B /* main.m in Sources */,
+				EC3E52D614B579480061CA7B /* AppDelegate.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		EC3E52D714B579480061CA7B /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				EC3E52EB14B579480061CA7B /* ICPriceAppV2Tests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		EC3E52E214B579480061CA7B /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = EC3E52C014B579480061CA7B /* ICPriceAppV2 */;
+			targetProxy = EC3E52E114B579480061CA7B /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		EC3E52CE14B579480061CA7B /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				EC3E52CF14B579480061CA7B /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		EC3E52E614B579480061CA7B /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				EC3E52E714B579480061CA7B /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		EC3E52EC14B579480061CA7B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				SDKROOT = iphoneos;
+			};
+			name = Debug;
+		};
+		EC3E52ED14B579480061CA7B /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		EC3E52EF14B579480061CA7B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "ICPriceAppV2/ICPriceAppV2-Prefix.pch";
+				INFOPLIST_FILE = "ICPriceAppV2/ICPriceAppV2-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Debug;
+		};
+		EC3E52F014B579480061CA7B /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "ICPriceAppV2/ICPriceAppV2-Prefix.pch";
+				INFOPLIST_FILE = "ICPriceAppV2/ICPriceAppV2-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Release;
+		};
+		EC3E52F214B579480061CA7B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/ICPriceAppV2.app/ICPriceAppV2";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(DEVELOPER_LIBRARY_DIR)/Frameworks",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "ICPriceAppV2/ICPriceAppV2-Prefix.pch";
+				INFOPLIST_FILE = "ICPriceAppV2Tests/ICPriceAppV2Tests-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUNDLE_LOADER)";
+				WRAPPER_EXTENSION = octest;
+			};
+			name = Debug;
+		};
+		EC3E52F314B579480061CA7B /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/ICPriceAppV2.app/ICPriceAppV2";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(DEVELOPER_LIBRARY_DIR)/Frameworks",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "ICPriceAppV2/ICPriceAppV2-Prefix.pch";
+				INFOPLIST_FILE = "ICPriceAppV2Tests/ICPriceAppV2Tests-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUNDLE_LOADER)";
+				WRAPPER_EXTENSION = octest;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		EC3E52BB14B579480061CA7B /* Build configuration list for PBXProject "ICPriceAppV2" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				EC3E52EC14B579480061CA7B /* Debug */,
+				EC3E52ED14B579480061CA7B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		EC3E52EE14B579480061CA7B /* Build configuration list for PBXNativeTarget "ICPriceAppV2" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				EC3E52EF14B579480061CA7B /* Debug */,
+				EC3E52F014B579480061CA7B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+		EC3E52F114B579480061CA7B /* Build configuration list for PBXNativeTarget "ICPriceAppV2Tests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				EC3E52F214B579480061CA7B /* Debug */,
+				EC3E52F314B579480061CA7B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = EC3E52B814B579480061CA7B /* Project object */;
+}
