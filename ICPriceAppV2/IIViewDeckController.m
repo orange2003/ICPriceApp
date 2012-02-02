@@ -476,6 +476,7 @@
             if (completed) completed(self);
             self.leftController.view.hidden = YES;
             [self.centerController viewWillAppear:YES];
+            [self.centerController viewDidAppear:YES];
             [self performDelegate:@selector(viewDeckControllerDidCloseLeftView:animated:) animated:YES];
             [self performDelegate:@selector(viewDeckControllerDidShowCenterView:animated:) animated:YES];
         }];

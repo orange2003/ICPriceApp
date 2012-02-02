@@ -35,7 +35,7 @@
     self.navigationItem.leftBarButtonItem = _menu;
     
     SVSegmentedControl *segmentedControl = [[SVSegmentedControl alloc]
-                                            initWithSectionTitles:[NSArray arrayWithObjects:@"采购询价",@"业务报价", nil]];
+                                            initWithSectionTitles:[NSArray arrayWithObjects:@"采购询价",@"销售报价", nil]];
     
     self.navigationItem.titleView = segmentedControl;
     [segmentedControl release];

@@ -8,6 +8,6 @@
 
 #import "IIViewDeckController.h"
 
-@interface MyIIViewDeckController : IIViewDeckController
+@interface MyIIViewDeckController : IIViewDeckController<UIImagePickerControllerDelegate,UINavigationControllerDelegate>
 -(void)photoUp;
 @end

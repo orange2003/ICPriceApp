@@ -93,6 +93,14 @@
     // Add the side swipe view to the table below the cell
     [self.tableView insertSubview:sideSwipeView belowSubview:cell];
     
+    
+    [kAppDelegate.temporaryValues setObject:[((TTListDataSource*)self.dataSource).items objectAtIndex:
+                                             [self.tableView indexPathForCell:cell].row]
+                                     forKey:@"swipRow"];
+    
+    
+    
+    
     // Remember which cell the side swipe view is displayed on and the swipe direction
     self.sideSwipeCell = cell;
     sideSwipeDirection = direction;

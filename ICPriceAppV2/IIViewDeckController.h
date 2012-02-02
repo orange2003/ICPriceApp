@@ -38,7 +38,7 @@ typedef enum {
     IIViewDeckNavigationControllerIntegrated
 } IIViewDeckNavigationControllerBehavior;
 
-@interface IIViewDeckController : UIViewController<UIActionSheetDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate>
+@interface IIViewDeckController : UIViewController<UIActionSheetDelegate>
 
 @property (nonatomic, retain) id<IIViewDeckControllerDelegate> delegate;
 @property (nonatomic, retain) UIViewController* centerController;

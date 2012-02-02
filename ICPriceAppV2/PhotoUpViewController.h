@@ -7,10 +7,11 @@
 //
 
 #import "IBAFormViewController.h"
-
-@interface PhotoUpViewController : IBAFormViewController{
+@class  SWSnapshotStackView;
+@interface PhotoUpViewController : IBAFormViewController<UIImagePickerControllerDelegate,UINavigationControllerDelegate>{
     UIImage *_preview;
     NSString *_type;
+    SWSnapshotStackView * _sw;
 }
 @property (nonatomic, retain) IBOutlet UIImage *preview;
 @property (nonatomic, copy) IBOutlet NSString *type;

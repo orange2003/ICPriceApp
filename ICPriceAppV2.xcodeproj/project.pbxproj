@@ -97,6 +97,8 @@
 		EC4A02CD14BD7556001DB373 /* BaseTabBarController.m in Sources */ = {isa = PBXBuildFile; fileRef = EC4A02CC14BD7554001DB373 /* BaseTabBarController.m */; };
 		EC4A02D014BD7897001DB373 /* ToolUntil.m in Sources */ = {isa = PBXBuildFile; fileRef = EC4A02CF14BD7897001DB373 /* ToolUntil.m */; };
 		EC4A02D314BD8ADE001DB373 /* SellQuoteModel.m in Sources */ = {isa = PBXBuildFile; fileRef = EC4A02D214BD8ADD001DB373 /* SellQuoteModel.m */; };
+		EC504F7D14D963D300EF39BE /* MockPhotoSource.m in Sources */ = {isa = PBXBuildFile; fileRef = EC504F7C14D963D300EF39BE /* MockPhotoSource.m */; };
+		EC504F8014D9640000EF39BE /* MyTTPhotoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EC504F7F14D9640000EF39BE /* MyTTPhotoViewController.m */; };
 		EC6DBCB514CB013500F7C5D4 /* UserLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EC6DBCB414CB013500F7C5D4 /* UserLoginViewController.m */; };
 		EC6DBCB814CB01D500F7C5D4 /* denglu@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = EC6DBCB614CB01D500F7C5D4 /* denglu@2x.png */; };
 		EC6DBCB914CB01D500F7C5D4 /* denglu.png in Resources */ = {isa = PBXBuildFile; fileRef = EC6DBCB714CB01D500F7C5D4 /* denglu.png */; };
@@ -209,6 +211,9 @@
 		ECDA20AA14B97CD20098E24F /* retweet-outline-button-item@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = ECDA209B14B97CD20098E24F /* retweet-outline-button-item@2x.png */; };
 		ECDA20AB14B97CD20098E24F /* star-hollow.png in Resources */ = {isa = PBXBuildFile; fileRef = ECDA209C14B97CD20098E24F /* star-hollow.png */; };
 		ECDA20AC14B97CD20098E24F /* star-hollow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = ECDA209D14B97CD20098E24F /* star-hollow@2x.png */; };
+		ECDD20BC14DA1E240054DF8A /* QuoteUpdataViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = ECDD20BB14DA1E240054DF8A /* QuoteUpdataViewController.m */; };
+		ECDD20C014DA1F1B0054DF8A /* QuoteUpdataDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = ECDD20BF14DA1F1B0054DF8A /* QuoteUpdataDataSource.m */; };
+		ECDD20CC14DA8F300054DF8A /* QuickPicListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = ECDD20CB14DA8F300054DF8A /* QuickPicListViewController.m */; };
 		ECE5858014BB2F75004818E7 /* JSONKit.m in Sources */ = {isa = PBXBuildFile; fileRef = ECE5857F14BB2F75004818E7 /* JSONKit.m */; };
 		ECE5858614BB31C8004818E7 /* QuoteListController.m in Sources */ = {isa = PBXBuildFile; fileRef = ECE5858514BB31C8004818E7 /* QuoteListController.m */; };
 		ECE5858914BB31DE004818E7 /* InquiryListController.m in Sources */ = {isa = PBXBuildFile; fileRef = ECE5858814BB31DE004818E7 /* InquiryListController.m */; };
@@ -588,6 +593,10 @@
 		EC4A02CF14BD7897001DB373 /* ToolUntil.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ToolUntil.m; sourceTree = "<group>"; };
 		EC4A02D114BD8ADD001DB373 /* SellQuoteModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SellQuoteModel.h; sourceTree = "<group>"; };
 		EC4A02D214BD8ADD001DB373 /* SellQuoteModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SellQuoteModel.m; sourceTree = "<group>"; };
+		EC504F7B14D963D300EF39BE /* MockPhotoSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MockPhotoSource.h; sourceTree = "<group>"; };
+		EC504F7C14D963D300EF39BE /* MockPhotoSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MockPhotoSource.m; sourceTree = "<group>"; };
+		EC504F7E14D9640000EF39BE /* MyTTPhotoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyTTPhotoViewController.h; sourceTree = "<group>"; };
+		EC504F7F14D9640000EF39BE /* MyTTPhotoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyTTPhotoViewController.m; sourceTree = "<group>"; };
 		EC6DBCB314CB013500F7C5D4 /* UserLoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserLoginViewController.h; sourceTree = "<group>"; };
 		EC6DBCB414CB013500F7C5D4 /* UserLoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserLoginViewController.m; sourceTree = "<group>"; };
 		EC6DBCB614CB01D500F7C5D4 /* denglu@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "denglu@2x.png"; sourceTree = "<group>"; };
@@ -796,6 +805,12 @@
 		ECDA209B14B97CD20098E24F /* retweet-outline-button-item@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "retweet-outline-button-item@2x.png"; sourceTree = "<group>"; };
 		ECDA209C14B97CD20098E24F /* star-hollow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "star-hollow.png"; sourceTree = "<group>"; };
 		ECDA209D14B97CD20098E24F /* star-hollow@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "star-hollow@2x.png"; sourceTree = "<group>"; };
+		ECDD20BA14DA1E240054DF8A /* QuoteUpdataViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QuoteUpdataViewController.h; sourceTree = "<group>"; };
+		ECDD20BB14DA1E240054DF8A /* QuoteUpdataViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QuoteUpdataViewController.m; sourceTree = "<group>"; };
+		ECDD20BE14DA1F1B0054DF8A /* QuoteUpdataDataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QuoteUpdataDataSource.h; sourceTree = "<group>"; };
+		ECDD20BF14DA1F1B0054DF8A /* QuoteUpdataDataSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QuoteUpdataDataSource.m; sourceTree = "<group>"; };
+		ECDD20CA14DA8F300054DF8A /* QuickPicListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QuickPicListViewController.h; sourceTree = "<group>"; };
+		ECDD20CB14DA8F300054DF8A /* QuickPicListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QuickPicListViewController.m; sourceTree = "<group>"; };
 		ECE5857E14BB2F75004818E7 /* JSONKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSONKit.h; sourceTree = "<group>"; };
 		ECE5857F14BB2F75004818E7 /* JSONKit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JSONKit.m; sourceTree = "<group>"; };
 		ECE5858414BB31C8004818E7 /* QuoteListController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QuoteListController.h; sourceTree = "<group>"; };
@@ -1637,6 +1652,15 @@
 			name = images;
 			sourceTree = "<group>";
 		};
+		ECDD20BD14DA1E750054DF8A /* QuoteUpdata */ = {
+			isa = PBXGroup;
+			children = (
+				ECDD20BA14DA1E240054DF8A /* QuoteUpdataViewController.h */,
+				ECDD20BB14DA1E240054DF8A /* QuoteUpdataViewController.m */,
+			);
+			name = QuoteUpdata;
+			sourceTree = "<group>";
+		};
 		ECE5857314BB2F6B004818E7 /* JSONKit */ = {
 			isa = PBXGroup;
 			children = (
@@ -1667,8 +1691,6 @@
 				EC31641F14BEBF44005E339A /* RealtimeDataSource.m */,
 				EC31642114BEBF5A005E339A /* InventoryDataSource.h */,
 				EC31642214BEBF5B005E339A /* InventoryDataSource.m */,
-				ECD51C1E14C99DFC001EDBA3 /* InquiryUpdataDataSource.h */,
-				ECD51C1F14C99DFC001EDBA3 /* InquiryUpdataDataSource.m */,
 				ECEED29314D693E300AA94F5 /* PhotoUpDataSource.h */,
 				ECEED29414D693E300AA94F5 /* PhotoUpDataSource.m */,
 				ECD51C2B14C9CC6F001EDBA3 /* SupplierSearchDataSource.h */,
@@ -1685,6 +1707,10 @@
 				EC21D2E914D7C884009A6030 /* StorageDetailsDataSource.m */,
 				EC21D2EB14D7C89C009A6030 /* InOutDetailsDataSource.h */,
 				EC21D2EC14D7C89C009A6030 /* InOutDetailsDataSource.m */,
+				ECDD20BE14DA1F1B0054DF8A /* QuoteUpdataDataSource.h */,
+				ECDD20BF14DA1F1B0054DF8A /* QuoteUpdataDataSource.m */,
+				ECD51C1E14C99DFC001EDBA3 /* InquiryUpdataDataSource.h */,
+				ECD51C1F14C99DFC001EDBA3 /* InquiryUpdataDataSource.m */,
 			);
 			name = DataSources;
 			sourceTree = "<group>";
@@ -1785,6 +1811,7 @@
 		ECE7AA8C14B68D35009C98AE /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				ECDD20BD14DA1E750054DF8A /* QuoteUpdata */,
 				EC21D2D714D7B740009A6030 /* EmbedReader */,
 				ECEED28914D68E7000AA94F5 /* Photo */,
 				EC35485A14D5425D00E8B545 /* Sales */,
@@ -1843,6 +1870,12 @@
 				ECEED28B14D68E9E00AA94F5 /* PicListViewController.m */,
 				ECEED29014D6921000AA94F5 /* PhotoUpViewController.h */,
 				ECEED29114D6921000AA94F5 /* PhotoUpViewController.m */,
+				EC504F7B14D963D300EF39BE /* MockPhotoSource.h */,
+				EC504F7C14D963D300EF39BE /* MockPhotoSource.m */,
+				EC504F7E14D9640000EF39BE /* MyTTPhotoViewController.h */,
+				EC504F7F14D9640000EF39BE /* MyTTPhotoViewController.m */,
+				ECDD20CA14DA8F300054DF8A /* QuickPicListViewController.h */,
+				ECDD20CB14DA8F300054DF8A /* QuickPicListViewController.m */,
 			);
 			name = Photo;
 			sourceTree = "<group>";
@@ -2350,6 +2383,11 @@
 				ECFAB3EC14D92BA3005250C9 /* StorageDetailsCell.m in Sources */,
 				ECFAB3FD14D932D9005250C9 /* TDBadgedCell.m in Sources */,
 				ECFAB40A14D93745005250C9 /* TSAlertView.m in Sources */,
+				EC504F7D14D963D300EF39BE /* MockPhotoSource.m in Sources */,
+				EC504F8014D9640000EF39BE /* MyTTPhotoViewController.m in Sources */,
+				ECDD20BC14DA1E240054DF8A /* QuoteUpdataViewController.m in Sources */,
+				ECDD20C014DA1F1B0054DF8A /* QuoteUpdataDataSource.m in Sources */,
+				ECDD20CC14DA8F300054DF8A /* QuickPicListViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -15,7 +15,7 @@
 - (void)tableViewDidLoadModel:(UITableView*)tableView {
 	NSMutableArray* items = [[NSMutableArray alloc] init];
 	
-	for (NSDictionary* feed in ((BaseRequestModel*)_model).items) {
+	for (NSArray* feed in ((BaseRequestModel*)_model).items) {
 		TTTableTextItem *item = [[TTTableTextItem alloc] init];
 		item.userInfo = feed;
 		[items addObject:item];

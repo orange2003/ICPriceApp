@@ -15,6 +15,7 @@
 #import "SWSnapshotStackView.h"
 #import "ASIFormDataRequest.h"
 #import "JSONKit.h"
+#import "UIImage+Scaled.h"
 @implementation PhotoUpViewController
 @synthesize preview = _preview;
 @synthesize type = _type; 
@@ -76,15 +77,16 @@
     self.tableView.tableHeaderView = _head;
     [_head release];
     
-    SWSnapshotStackView * sw = [[SWSnapshotStackView alloc] initWithFrame:CGRectMake(0, 0, 320, 160)];
-    sw.contentMode = UIViewContentModeRedraw;
-    sw.image = self.preview;
-    sw.displayAsStack = YES;
-    [_head addSubview:sw];
-    [sw release];
+    _sw = [[SWSnapshotStackView alloc] initWithFrame:CGRectMake(0, 0, 320, 160)];
+    _sw.contentMode = UIViewContentModeRedraw;
+    _sw.image = self.preview;
+    _sw.displayAsStack = YES;
+    [_head addSubview:_sw];
+    [_sw release];
     
     UIButton *_upButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [_upButton setImage:TTIMAGE(@"bundle://icon-camera.png") forState:UIControlStateNormal];
+    [_upButton addTarget:self action:@selector(photoUp) forControlEvents:UIControlEventTouchUpInside];
     _upButton.frame = CGRectMake(0, 0, 320, 160);
     _upButton.contentEdgeInsets = UIEdgeInsetsMake(130, 150, 0, 0);
     [_head addSubview:_upButton];
@@ -128,11 +130,11 @@
     //uid:
     NSMutableDictionary *operationData = [NSMutableDictionary dictionary];
     [operationData setObject:self.type forKey:@"pn"];
-    [operationData setObject:@"" forKey:@"rtype"];
+    [operationData setObject:[kAppDelegate.temporaryValues objectForKey:@"picType"] forKey:@"rtype"];
     [operationData setObject:[self.formDataSource.model objectForKey:@"remarks"]?
      [self.formDataSource.model objectForKey:@"remarks"]:@""
                       forKey:@"desc"];
-    [operationData setObject:@"" forKey:@"rid"];
+    [operationData setObject:[kAppDelegate.temporaryValues objectForKey:@"picRid"] forKey:@"rid"];
     [operationData setObject:batch?batch:@"" forKey:@"dcid"];
     [operationData setObject:temp?temp:@"" forKey:@"clssid"];
     [operationData setObject:kAppDelegate.user.ider forKey:@"uid"];
@@ -196,6 +198,60 @@
 	[((IBAButtonFormField*)[section.formFields objectAtIndex:0]) updateCellContents];
 	[self.tableView reloadSections:[NSIndexSet indexSetWithIndex:0]
 				  withRowAnimation:UITableViewRowAnimationNone];
+}
+
+-(void)photoUp{
+    UIActionSheet *actionSheet = nil;
+    actionSheet = [[UIActionSheet alloc] initWithTitle:nil
+                                              delegate:self 
+                                     cancelButtonTitle:@"取消"
+                                destructiveButtonTitle:nil
+                                     otherButtonTitles:@"拍照上传",@"相册选取",nil];
+    
+    
+    actionSheet.actionSheetStyle = UIActionSheetStyleBlackTranslucent;
+    [actionSheet showInView:self.view];
+    [actionSheet release];
+}
+
+-(void) actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex{
+	if (buttonIndex==0) {//相机
+		if([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]){
+			UIImagePickerController *camera = [[UIImagePickerController alloc] init];
+			camera.sourceType = UIImagePickerControllerSourceTypeCamera;
+			camera.allowsEditing = YES;
+			camera.delegate = self;
+			
+			[self presentModalViewController:camera animated:YES];
+			//[self presentModalViewController:camera animated:YES];
+			[camera release];
+		}
+	}else if (buttonIndex ==1) {//相册
+		UIImagePickerController *picker = [[UIImagePickerController alloc] init];
+		picker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
+		picker.allowsEditing = YES;
+		picker.delegate = self;
+        
+		[self presentModalViewController:picker animated:YES];
+		[picker release];
+	}
+}
+
+- (void) imagePickerController:(UIImagePickerController *)picker
+ didFinishPickingMediaWithInfo:(NSDictionary *)info {
+	UIImage *image = [[info objectForKey:UIImagePickerControllerEditedImage] scaledCopyOfSize:CGSizeMake(600, 800)];
+	if (picker.sourceType == UIImagePickerControllerSourceTypeCamera) {
+		UIImageWriteToSavedPhotosAlbum(image, nil, nil, nil);//保存相册
+	}
+	[picker dismissModalViewControllerAnimated:NO];
+    
+    self.preview = image;
+    _sw.image = self.preview;
+}
+
+-(void) imagePickerControllerDidCancel:(UIImagePickerController *)picker{
+    [picker dismissModalViewControllerAnimated:YES];
+    [self performSelector:@selector(toggleLeftView) withObject:nil afterDelay:0.0];
 }
 
 @end

@@ -51,7 +51,7 @@
 
 - (void) imagePickerController:(UIImagePickerController *)picker
  didFinishPickingMediaWithInfo:(NSDictionary *)info {
-    [self.viewDeckController performSelector:@selector(toggleLeftView) withObject:nil afterDelay:0.0];
+    [self performSelector:@selector(toggleLeftView) withObject:nil afterDelay:0.0];
 	UIImage *image = [[info objectForKey:UIImagePickerControllerEditedImage] scaledCopyOfSize:CGSizeMake(600, 800)];
 	if (picker.sourceType == UIImagePickerControllerSourceTypeCamera) {
 		UIImageWriteToSavedPhotosAlbum(image, nil, nil, nil);//保存相册

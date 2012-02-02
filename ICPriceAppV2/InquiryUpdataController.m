@@ -59,8 +59,11 @@
 //        NSLog(@"supplier %@",((Inquiry*)[kAppDelegate.temporaryValues 
 //                                         objectForKey:@"inquiry"]).supplier);
         
-		if (![((Inquiry*)[kAppDelegate.temporaryValues 
-                         objectForKey:@"inquiry"]).supplier isEmptyOrWhitespace]) {
+		if (((Inquiry*)[kAppDelegate.temporaryValues 
+                        objectForKey:@"inquiry"]).supplier&&
+            ![[NSString stringWithFormat:@"%@",
+               ((Inquiry*)[kAppDelegate.temporaryValues 
+                           objectForKey:@"inquiry"]).supplier] isEmptyOrWhitespace]) {
 			//获取联系人
 			[self getContact];
 		}else{
@@ -267,12 +270,15 @@
                              kAppDelegate.user.ider,
                              ((Inquiry*)[kAppDelegate.temporaryValues objectForKey:@"inquiry"]).cusInqID,
                              ((Inquiry*)[kAppDelegate.temporaryValues objectForKey:@"inquiry"]).ider,
-                             [self.formDataSource.model objectForKey:@"quantity"],
-                             [self.formDataSource.model objectForKey:@"price"],
-                             [self.formDataSource.model objectForKey:@"batch"],
-                             tStatus,
-                             ((Inquiry*)[kAppDelegate.temporaryValues objectForKey:@"inquiry"]).platform,
-                             [self.formDataSource.model objectForKey:@"remarks"],
+                             [self.formDataSource.model objectForKey:@"quantity"]?
+                             [self.formDataSource.model objectForKey:@"quantity"]:@"",
+                             [self.formDataSource.model objectForKey:@"price"]?[self.formDataSource.model objectForKey:@"price"]:@"",
+                             [self.formDataSource.model objectForKey:@"batch"]?[self.formDataSource.model objectForKey:@"batch"]:@"",
+                             tStatus?tStatus:@"",
+                             ((Inquiry*)[kAppDelegate.temporaryValues objectForKey:@"inquiry"]).platform?
+                             ((Inquiry*)[kAppDelegate.temporaryValues objectForKey:@"inquiry"]).platform:@"",
+                             [self.formDataSource.model objectForKey:@"remarks"]?
+                             [self.formDataSource.model objectForKey:@"remarks"]:@"",
                              nil] 
                      forKey:@"Values"];
     
@@ -288,6 +294,12 @@
 
 -(void)inquiryUpdataHandler:(ASIHTTPRequest *)request{
     NSDictionary *data =[[JSONDecoder decoder] objectWithData:[request responseData]];
+    if ([[data objectForKey:@"ISSuccess"] intValue]==0) {
+        [kAppDelegate HUDHide];
+        [kAppDelegate alert:@"" message:@"更新失败"];
+        return;
+    }
+    
     [[NSNotificationCenter defaultCenter] postNotificationName:@"InquiryListRefresh" object:nil];
    // NSLog(@"data %@",data);
     kAppDelegate.HUD.customView = [[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"37x-Checkmark.png"]] autorelease];

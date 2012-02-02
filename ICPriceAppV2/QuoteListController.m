@@ -10,9 +10,9 @@
 #import "QuoteInquiryListDelegate.h"
 #import "QuoteListDataSource.h"
 #import "IIViewDeckController.h"
-
+#import "Inquiry.h"
 #define BUTTON_LEFT_MARGIN 10.0
-#define BUTTON_SPACING 25.0
+#define BUTTON_SPACING 10.0
 
 @interface QuoteListController (PrivateStuff)
 -(void) setupSideSwipeView;
@@ -20,8 +20,34 @@
 
 @implementation QuoteListController
 
+-(void)dealloc{
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+    [super dealloc];
+}
+
+- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
+	if (self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil]) {
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(QuoteListRefresh) 
+                                                     name:@"QuoteListRefresh" object:nil];
+    }
+    return self;
+}
+
+-(void)QuoteListRefresh{
+    [[NSNotificationCenter defaultCenter]
+     postNotificationName:@"DragRefreshTableReload" object:nil];
+    [self.model load:TTURLRequestCachePolicyNetwork more:NO];
+}
+
 -(void)loadView{
     [super loadView];
+    self.variableHeightRows = NO;
+    self.tableView.rowHeight = 44;
+    buttonData = [[NSArray arrayWithObjects:
+                   [NSDictionary dictionaryWithObjectsAndKeys:@"图片上传", @"title", @"reply.png", @"image", nil],
+                   [NSDictionary dictionaryWithObjectsAndKeys:@"图片浏览", @"title", @"reply.png", @"image", nil],
+                   nil] retain];
+    buttons = [[NSMutableArray alloc] initWithCapacity:buttonData.count];
     
     self.sideSwipeView = [[[UIView alloc] initWithFrame:CGRectMake(self.tableView.frame.origin.x, self.tableView.frame.origin.y, self.tableView.frame.size.width, self.tableView.rowHeight)] autorelease];
     
@@ -60,15 +86,16 @@
         button.autoresizingMask = UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleTopMargin;
         
         // Get the button image
-        UIImage* buttonImage = [UIImage imageNamed:[buttonInfo objectForKey:@"image"]];
+        button.frame = CGRectMake(leftEdge, sideSwipeView.center.y - 40/2.0, 65, 40);
         
-        // Set the button's frame
-        button.frame = CGRectMake(leftEdge, sideSwipeView.center.y - buttonImage.size.height/2.0, buttonImage.size.width, buttonImage.size.height);
         
         // Add the image as the button's background image
         // [button setBackgroundImage:buttonImage forState:UIControlStateNormal];
-        UIImage* grayImage = [self imageFilledWith:[UIColor colorWithWhite:0.9 alpha:1.0] using:buttonImage];
-        [button setImage:grayImage forState:UIControlStateNormal];
+        //UIImage* grayImage = [self imageFilledWith:[UIColor colorWithWhite:0.9 alpha:1.0] using:buttonImage];
+        //[button setImage:grayImage forState:UIControlStateNormal];
+        [button setTitle:[buttonInfo objectForKey:@"title"] forState:UIControlStateNormal];
+        button.titleLabel.font = [UIFont boldSystemFontOfSize:15];
+        [button setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
         
         // Add a touch up inside action
         [button addTarget:self action:@selector(touchUpInsideAction:) forControlEvents:UIControlEventTouchUpInside];
@@ -80,7 +107,36 @@
         [self.sideSwipeView addSubview:button];
         
         // Move the left edge in prepartion for the next button
-        leftEdge = leftEdge + buttonImage.size.width + BUTTON_SPACING;
+        leftEdge = leftEdge + 65 + BUTTON_SPACING;
+    }
+}
+
+-(void)didSelectObject:(id)object atIndexPath:(NSIndexPath *)indexPath{
+    [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
+    
+    if ([self.contentController.viewDeckController leftControllerIsClosed]) {
+        [kAppDelegate.temporaryValues setObject:((TTTableTextItem*)object).text
+                                         forKey:@"selectType"];
+        
+        
+        NSArray * cells  = ((TTTableTextItem*)object).userInfo;
+        NSLog(@"cells %@",cells);
+        //ID,型号,数量,批号,厂牌, 目标价,备注,分钟,客户,采购员,芯片状态id
+        Inquiry * inquiry = [[Inquiry alloc] init];
+        inquiry.ider = [cells objectAtIndex:0];
+        //inquiry.cusInqID = [cells objectAtIndex:1];
+        inquiry.type= [(NSString*)[cells objectAtIndex:1] uppercaseString];
+        inquiry.quantity= [cells objectAtIndex:2];
+        inquiry.price = [cells objectAtIndex:5];
+        inquiry.batch = [cells objectAtIndex:3];
+        inquiry.status = [cells objectAtIndex:10];
+        inquiry.brand = [cells objectAtIndex:4];
+        [kAppDelegate.temporaryValues setObject:inquiry forKey:@"inquiry"];
+        [inquiry release];
+        
+        [self.contentController.navigationController 
+         pushViewController:[kAppDelegate loadFromVC:@"QuoteUpdataViewController"] 
+                                                               animated:YES];
     }
 }
 
@@ -88,15 +144,29 @@
 #pragma mark Button touch up inside action
 - (IBAction) touchUpInsideAction:(UIButton*)button
 {
-    NSIndexPath* indexPath = [self.tableView indexPathForCell:sideSwipeCell];
-    
     NSUInteger index = [buttons indexOfObject:button];
-    NSDictionary* buttonInfo = [buttonData objectAtIndex:index];
-    [[[[UIAlertView alloc] initWithTitle:[NSString stringWithFormat: @"%@ on cell %d", [buttonInfo objectForKey:@"title"], indexPath.row]
-                                 message:nil
-                                delegate:nil
-                       cancelButtonTitle:nil
-                       otherButtonTitles:@"OK", nil] autorelease] show];
+    
+    switch (index) {
+        case 0://图片上传
+        {
+            [kAppDelegate.temporaryValues setObject:@"0" forKey:@"picType"];
+            [kAppDelegate.temporaryValues setObject:@"" forKey:@"picRid"];
+            [self.contentController.viewDeckController photoUp];
+            break;
+        }
+        case 1://图片浏览
+        {
+            [kAppDelegate.temporaryValues setObject:
+             ((TTTableTextItem*)[kAppDelegate.temporaryValues objectForKey:@"swipRow"]).text 
+                                             forKey:@"selectType"];
+            
+            [self.contentController.navigationController pushViewController:[kAppDelegate loadFromVC:@"QuickPicListViewController"] 
+                                                                   animated:YES];
+            break;
+        }
+        default:
+            break;
+    }
     
     [self removeSideSwipeView:YES];
 }

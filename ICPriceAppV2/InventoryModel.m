@@ -30,9 +30,9 @@
                              @"15",
                              @"ID,型号,图,公司ID,数量,售价,批号,芯片状态,厂牌,pckpins,助记名,日期,平台ID",
                              @"ID desc",
-                             [NSString stringWithFormat:@"型号 like '%@%%' and 公司ID=%@",
-                              [kAppDelegate.temporaryValues objectForKey:@"selectType"],
-                              kAppDelegate.user.companyId],@"ID",@"1",nil] forKey:@"Values"];
+                             [NSString stringWithFormat:@"型号 like '%@%%'",
+                              [kAppDelegate.temporaryValues objectForKey:@"selectType"]],
+                             @"ID",@"1",nil] forKey:@"Values"];
     
     // NSLog(@"value %@",operationData);
     

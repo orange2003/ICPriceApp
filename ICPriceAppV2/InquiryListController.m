@@ -12,8 +12,11 @@
 #import "NSStringAdditions.h"
 #import "Inquiry.h"
 #import "IIViewDeckController.h"
+#import "ASIFormDataRequest.h"
+#import "JSONKit.h"
+#import "User.h"
 #define BUTTON_LEFT_MARGIN 10.0
-#define BUTTON_SPACING 25.0
+#define BUTTON_SPACING 10.0
 
 @interface InquiryListController (PrivateStuff)
 -(void) setupSideSwipeView;
@@ -29,7 +32,7 @@
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
 	if (self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil]) {
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refresh) 
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(InquiryListRefresh) 
                                                      name:@"InquiryListRefresh" object:nil];
     }
     return self;
@@ -43,15 +46,14 @@
 
 -(void)loadView{
     [super loadView];
-    
+    self.variableHeightRows = NO;
+    self.tableView.rowHeight = 44;
     // Setup the title and image for each button within the side swipe view
     buttonData = [[NSArray arrayWithObjects:
-                   [NSDictionary dictionaryWithObjectsAndKeys:@"Reply", @"title", @"reply.png", @"image", nil],
-                   [NSDictionary dictionaryWithObjectsAndKeys:@"Retweet", @"title", @"retweet-outline-button-item.png", @"image", nil],
-                   [NSDictionary dictionaryWithObjectsAndKeys:@"Favorite", @"title", @"star-hollow.png", @"image", nil],
-                   [NSDictionary dictionaryWithObjectsAndKeys:@"Profile", @"title", @"person.png", @"image", nil],
-                   [NSDictionary dictionaryWithObjectsAndKeys:@"Links", @"title", @"paperclip.png", @"image", nil],
-                   [NSDictionary dictionaryWithObjectsAndKeys:@"Action", @"title", @"action.png", @"image", nil],
+                   [NSDictionary dictionaryWithObjectsAndKeys:@"无货操作", @"title", @"reply.png", @"image", nil],
+                   [NSDictionary dictionaryWithObjectsAndKeys:@"直接报价", @"title", @"reply.png", @"image", nil],
+                   [NSDictionary dictionaryWithObjectsAndKeys:@"图片上传", @"title", @"reply.png", @"image", nil],
+                   [NSDictionary dictionaryWithObjectsAndKeys:@"图片浏览", @"title", @"reply.png", @"image", nil],
                    nil] retain];
     buttons = [[NSMutableArray alloc] initWithCapacity:buttonData.count];
     
@@ -92,15 +94,20 @@
         button.autoresizingMask = UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleTopMargin;
         
         // Get the button image
-        UIImage* buttonImage = [UIImage imageNamed:[buttonInfo objectForKey:@"image"]];
+       // UIImage* buttonImage = [UIImage imageNamed:[buttonInfo objectForKey:@"image"]];
         
         // Set the button's frame
-        button.frame = CGRectMake(leftEdge, sideSwipeView.center.y - buttonImage.size.height/2.0, buttonImage.size.width, buttonImage.size.height);
+//        button.frame = CGRectMake(leftEdge, sideSwipeView.center.y - buttonImage.size.height/2.0, buttonImage.size.width, buttonImage.size.height);
+         button.frame = CGRectMake(leftEdge, sideSwipeView.center.y - 40/2.0, 65, 40);
+        
         
         // Add the image as the button's background image
         // [button setBackgroundImage:buttonImage forState:UIControlStateNormal];
-        UIImage* grayImage = [self imageFilledWith:[UIColor colorWithWhite:0.9 alpha:1.0] using:buttonImage];
-        [button setImage:grayImage forState:UIControlStateNormal];
+        //UIImage* grayImage = [self imageFilledWith:[UIColor colorWithWhite:0.9 alpha:1.0] using:buttonImage];
+        //[button setImage:grayImage forState:UIControlStateNormal];
+        [button setTitle:[buttonInfo objectForKey:@"title"] forState:UIControlStateNormal];
+        button.titleLabel.font = [UIFont boldSystemFontOfSize:15];
+        [button setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
         
         // Add a touch up inside action
         [button addTarget:self action:@selector(touchUpInsideAction:) forControlEvents:UIControlEventTouchUpInside];
@@ -112,7 +119,7 @@
         [self.sideSwipeView addSubview:button];
         
         // Move the left edge in prepartion for the next button
-        leftEdge = leftEdge + buttonImage.size.width + BUTTON_SPACING;
+        leftEdge = leftEdge + 65 + BUTTON_SPACING;
     }
 }
 
@@ -120,18 +127,113 @@
 #pragma mark Button touch up inside action
 - (IBAction) touchUpInsideAction:(UIButton*)button
 {
-    NSIndexPath* indexPath = [self.tableView indexPathForCell:sideSwipeCell];
-    
+
     NSUInteger index = [buttons indexOfObject:button];
-    NSDictionary* buttonInfo = [buttonData objectAtIndex:index];
-    [[[[UIAlertView alloc] initWithTitle:[NSString stringWithFormat: @"%@ on cell %d", [buttonInfo objectForKey:@"title"], indexPath.row]
-                                 message:nil
-                                delegate:nil
-                       cancelButtonTitle:nil
-                       otherButtonTitles:@"OK", nil] autorelease] show];
+    
+    switch (index) {
+        case 0://无货操作
+            [self soldout];
+            break;
+        case 1://直接报价
+            [self InquiryUp];
+            break;
+        case 2://图片上传
+        {
+            [kAppDelegate.temporaryValues setObject:@"0" forKey:@"picType"];
+            [kAppDelegate.temporaryValues setObject:@"" forKey:@"picRid"];
+            [self.contentController.viewDeckController photoUp];
+            break;
+        }
+        case 3://图片浏览
+        {
+            [kAppDelegate.temporaryValues setObject:
+             ((TTTableTextItem*)[kAppDelegate.temporaryValues objectForKey:@"swipRow"]).text 
+                                             forKey:@"selectType"];
+            
+            [self.contentController.navigationController pushViewController:[kAppDelegate loadFromVC:@"QuickPicListViewController"] 
+                                                                   animated:YES];
+            break;
+        }
+        default:
+            break;
+    }
     
     [self removeSideSwipeView:YES];
 }
+
+-(void)InquiryUp{
+    if (![((TTTableTextItem*)[kAppDelegate.temporaryValues objectForKey:@"swipRow"]).text isEmptyOrWhitespace]) {
+        NSArray * cells  = ((TTTableTextItem*)[kAppDelegate.temporaryValues objectForKey:@"swipRow"]).userInfo;
+        //ID,cusInqId,型号,数量,批号,厂牌,suNote,分钟,平台
+        Inquiry * inquiry = [[Inquiry alloc] init];
+        inquiry.ider = [cells objectAtIndex:0];
+        inquiry.cusInqID = [cells objectAtIndex:1];
+        inquiry.type= [(NSString*)[cells objectAtIndex:2] uppercaseString];
+        inquiry.quantity= [cells objectAtIndex:3];
+        //inquiry.price = [cells objectAtIndex:3];
+        inquiry.batch = [cells objectAtIndex:4];
+        //inquiry.status = [cells objectAtIndex:5];
+        inquiry.brand = [cells objectAtIndex:5];
+        [kAppDelegate.temporaryValues setObject:inquiry forKey:@"inquiry"];
+        [inquiry release];
+        
+        [self.contentController.navigationController pushViewController:[kAppDelegate loadFromVC:@"InquiryUpdataController"] 
+                                                               animated:YES];
+    }else{
+        [kAppDelegate alert:@"" message:@"缺少芯片型号请补全"];
+    }
+}
+
+-(void)soldout{
+    [kAppDelegate HUDShow:@"提交中" yOffset:@"0"];
+    ASIFormDataRequest *request = [ASIFormDataRequest requestWithURL:[NSURL URLWithString:kRESTBaseUrl]];
+    NSMutableDictionary *operationData = [NSMutableDictionary dictionary];
+    [operationData setValue:@"up_iphone_update_caigouSoldout" forKey:@"ObjectName"];
+    NSArray * _info =   ((TTTableTextItem*)[kAppDelegate.temporaryValues objectForKey:@"swipRow"]).userInfo;
+//    @uID int,
+//    @cusInqId int,
+//    @ID int
+    [operationData setValue:[NSArray arrayWithObjects:
+                             kAppDelegate.user.ider,
+                             [_info objectAtIndex:1],
+                             [_info objectAtIndex:0],
+                             nil] 
+                     forKey:@"Values"];
+    
+    [request setPostValue:@"PRC" forKey:@"OperationCode"];
+    [request setPostValue:[operationData JSONString] forKey:@"OperationData"];
+    
+	[request setRequestMethod:@"POST"];
+    [request setDelegate:self];
+    request.didFinishSelector = @selector(soldoutHandler:);
+    request.didFailSelector = @selector(finishFail:);
+	[request startAsynchronous];
+}
+
+-(void)finishFail:(ASIHTTPRequest *)request{
+	[kAppDelegate HUDHide];
+	[kAppDelegate alert:@"" message:[[request error] localizedDescription]];
+}
+
+-(void)soldoutHandler:(ASIHTTPRequest *)request{
+    NSDictionary *data =[[JSONDecoder decoder] objectWithData:[request responseData]];
+    if ([[data objectForKey:@"ISSuccess"] intValue]==0) {
+        [kAppDelegate HUDHide];
+        [kAppDelegate alert:@"" message:@"操作失败"];
+        return;
+    }
+    kAppDelegate.HUD.customView = [[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"37x-Checkmark.png"]] autorelease];
+    
+    // Set custom view mode
+    kAppDelegate.HUD.mode = MBProgressHUDModeCustomView;
+    kAppDelegate.HUD.animationType = MBProgressHUDAnimationZoom;
+    kAppDelegate.HUD.labelText = @"操作成功!";
+    
+    [kAppDelegate.HUD show:YES];
+    [kAppDelegate.HUD hide:YES afterDelay:1.5];
+    [self reload];
+}
+
 
 -(id <UITableViewDelegate>) createDelegate{
 	return [[[QuoteInquiryListDelegate alloc] initWithController:self] autorelease];
@@ -147,7 +249,7 @@
                                              forKey:@"selectType"];
             
             NSArray * cells  = ((TTTableTextItem*)object).userInfo;
-            //noPaginationID,cusInqId,型号,数量,批号,厂牌,suNote,分钟,平台
+            //ID,cusInqId,型号,数量,批号,厂牌,suNote,分钟,平台
             Inquiry * inquiry = [[Inquiry alloc] init];
             inquiry.ider = [cells objectAtIndex:0];
             inquiry.cusInqID = [cells objectAtIndex:1];

@@ -9,7 +9,10 @@
 #import "StorageDetailsViewController.h"
 #import "QuoteInquiryListDelegate.h"
 #import "StorageDetailsDataSource.h"
-
+#import "NSStringAdditions.h"
+#import "ASIFormDataRequest.h"
+#import "User.h"
+#import "JSONKit.h"
 #define BUTTON_LEFT_MARGIN 10.0
 #define BUTTON_SPACING 25.0
 
@@ -31,6 +34,7 @@
 
 -(void)didSelectObject:(id)object atIndexPath:(NSIndexPath *)indexPath{
     [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
+    _ider = [((TTTableTextItem*)object).userInfo objectAtIndex:0];
     TSAlertView* av = [[[TSAlertView alloc] init] autorelease];
 	av.title = @"库存盘点";
     av.delegate = self;
@@ -43,7 +47,62 @@
 }
 
 -(void)alertView:(TSAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
+    if (buttonIndex==0) {
+        if (![alertView.inputTextField.text isEmptyOrWhitespace]) {
+            [self performSelector:@selector(showHUD) withObject:nil afterDelay:0.0];
+            ASIFormDataRequest *asiRequest = [[ASIFormDataRequest requestWithURL:[NSURL URLWithString:kRESTBaseUrl]] retain];
+            NSMutableDictionary *operationData = [NSMutableDictionary dictionary];
+            
+            [operationData setValue:@"up_iphone_pandian" forKey:@"ObjectName"];
+            [operationData setValue:[NSArray arrayWithObjects:
+                                     _ider,
+                                     [kAppDelegate.temporaryValues objectForKey:@"stockID"],
+                                     alertView.inputTextField.text,
+                                     kAppDelegate.user.ider,
+                                     nil] 
+                             forKey:@"Values"];
+            
+            //NSLog(@"OperationData %@",operationData);
+            
+            [asiRequest setPostValue:@"PRC" forKey:@"OperationCode"];
+            [asiRequest setPostValue:[operationData JSONString] forKey:@"OperationData"];
+            
+            [asiRequest setRequestMethod:@"POST"];
+            [asiRequest setDelegate:self];
+            asiRequest.didFinishSelector = @selector(finishUp:);
+            asiRequest.didFailSelector = @selector(finishFail:);
+            [asiRequest startAsynchronous];
+        }
+    }
+}
+
+-(void)showHUD{
+    [kAppDelegate HUDShow:@"提交中" yOffset:@"0"];
+}
+
+-(void)finishFail:(ASIHTTPRequest *)request{
+    [kAppDelegate HUDHide];
+    [kAppDelegate alert:@"" message:@"提交失败"];
+	NSLog(@"request Fail");
     
+}
+
+-(void)finishUp:(ASIHTTPRequest *)requests{
+   //NSLog(@"requests %@",[requests responseString]);
+    NSDictionary *data =[[JSONDecoder decoder] objectWithData:[requests responseData]];
+    if ([[data objectForKey:@"ISSuccess"] intValue]==1) {
+        kAppDelegate.HUD.customView = [[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"37x-Checkmark.png"]] autorelease];
+        // Set custom view mode
+        kAppDelegate.HUD.mode = MBProgressHUDModeCustomView;
+        kAppDelegate.HUD.animationType = MBProgressHUDAnimationZoom;
+        kAppDelegate.HUD.labelText = @"修改成功!";
+        
+        [kAppDelegate.HUD show:YES];
+        [kAppDelegate.HUD hide:YES afterDelay:1.5];
+        [self reload];
+    }else{
+        [kAppDelegate alert:@"" message:@"更新失败"];
+    }
 }
 
 // Called when a left swipe occurred

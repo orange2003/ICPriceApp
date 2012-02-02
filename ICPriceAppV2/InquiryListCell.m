@@ -10,6 +10,10 @@
 
 @implementation InquiryListCell
 
++(CGFloat)tableView:(UITableView *)tableView rowHeightForObject:(id)object{
+    return 44;
+}
+
 -(void)setObject:(id)object{
     [super setObject:object];
     self.accessoryType = UITableViewCellAccessoryDisclosureIndicator;

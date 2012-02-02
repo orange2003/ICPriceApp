@@ -46,7 +46,7 @@
     [_typeButton setTitleColor:[UIColor darkGrayColor] forState:UIControlStateHighlighted];
     [_typeButton setTitle:@"快查" forState:UIControlStateNormal];
     _typeButton.titleLabel.font = [UIFont systemFontOfSize:14];
-    [_typeButton addTarget:self action:@selector(typeAction) forControlEvents:UIControlEventTouchUpInside];
+    [_typeButton addTarget:self action:@selector(typeAction:) forControlEvents:UIControlEventTouchUpInside];
     _typeButton.frame = CGRectMake(0, 0, 100, 25);
     [_custView addSubview:_typeButton];
     
@@ -54,7 +54,7 @@
     [_picButton setTitleColor:[UIColor darkGrayColor] forState:UIControlStateHighlighted];
     [_picButton setTitle:@"图片" forState:UIControlStateNormal];
      _picButton.titleLabel.font = [UIFont systemFontOfSize:14];
-    [_picButton addTarget:self action:@selector(picAction) forControlEvents:UIControlEventTouchUpInside];
+    [_picButton addTarget:self action:@selector(typeAction:) forControlEvents:UIControlEventTouchUpInside];
     _picButton.frame = CGRectMake(0, 40, 100, 25);
     [_custView addSubview:_picButton];
     
@@ -63,7 +63,7 @@
     [_stockButton setTitleColor:[UIColor darkGrayColor] forState:UIControlStateHighlighted];
     [_stockButton setTitle:@"现货库存" forState:UIControlStateNormal];
     _stockButton.titleLabel.font = [UIFont systemFontOfSize:14];
-    [_stockButton addTarget:self action:@selector(picAction) forControlEvents:UIControlEventTouchUpInside];
+    [_stockButton addTarget:self action:@selector(typeAction:) forControlEvents:UIControlEventTouchUpInside];
     _stockButton.frame = CGRectMake(0, 80, 100, 25);
     [_custView addSubview:_stockButton];
     
@@ -71,7 +71,7 @@
     [_saleButton setTitleColor:[UIColor darkGrayColor] forState:UIControlStateHighlighted];
     [_saleButton setTitle:@"订单" forState:UIControlStateNormal];
     _saleButton.titleLabel.font = [UIFont systemFontOfSize:14];
-    [_saleButton addTarget:self action:@selector(picAction) forControlEvents:UIControlEventTouchUpInside];
+    [_saleButton addTarget:self action:@selector(typeAction:) forControlEvents:UIControlEventTouchUpInside];
     _saleButton.frame = CGRectMake(0, 120, 100, 25);
     [_custView addSubview:_saleButton];
     
@@ -98,17 +98,32 @@
     self.tableView.tableHeaderView = _searchController.searchBar;
     if (_typeFlag==0) {
         _searchController.searchBar.placeholder = @"请输入型号 快查";
-    }else{
+    }else if (_typeFlag==1){
         _searchController.searchBar.placeholder = @"请输入型号 图片";
+    }else if (_typeFlag==2){
+        _searchController.searchBar.placeholder = @"请输入型号 现货库存";
+    }else if (_typeFlag==3){
+        _searchController.searchBar.placeholder = @"请输入型号 订单";
     }
 	
     
     [self setSearchIconToFavicon];
 }
 
--(void)typeAction{
-    _searchController.searchBar.placeholder = @"请输入型号 快查";
-    _typeFlag = 0;
+-(void)typeAction:(id)sender{
+    if ([[((UIButton*)sender) titleForState:UIControlStateNormal] isEqualToString:@"快查"]) {
+        _searchController.searchBar.placeholder = @"请输入型号 快查";
+        _typeFlag = 0;
+    }else if ([[((UIButton*)sender) titleForState:UIControlStateNormal] isEqualToString:@"图片"]) {
+        _searchController.searchBar.placeholder = @"请输入型号 图片";
+        _typeFlag = 1;
+    }else if ([[((UIButton*)sender) titleForState:UIControlStateNormal] isEqualToString:@"现货库存"]) {
+        _searchController.searchBar.placeholder = @"请输入型号 现货库存";
+        _typeFlag = 2;
+    }else if ([[((UIButton*)sender) titleForState:UIControlStateNormal] isEqualToString:@"订单"]) {
+        _searchController.searchBar.placeholder = @"请输入型号 订单";
+        _typeFlag = 3;
+    }
     [_popTipView dismissAnimated:YES];
 }
 
@@ -193,19 +208,54 @@
     [defaults setObject:_temps forKey:@"searchHistory"];
     [defaults synchronize];
     
-    
-    [self.viewDeckController closeLeftViewBouncing:^(IIViewDeckController *controller) {
-        [kAppDelegate.temporaryValues setObject:@"0" forKey:@"beginDragging"];
-        controller.centerController = 
-        [[[UINavigationController alloc] 
-          initWithRootViewController:[kAppDelegate loadFromVC:@"TopQuickSearchViewController"]] 
-         autorelease];
-        [NSThread sleepForTimeInterval:(300+arc4random()%700)/1000000.0];
-    }];
+    if (_typeFlag==0) {//快查
+        [self.viewDeckController closeLeftViewBouncing:^(IIViewDeckController *controller) {
+            [kAppDelegate.temporaryValues setObject:@"0" forKey:@"beginDragging"];
+            controller.centerController = 
+            [[[UINavigationController alloc] 
+              initWithRootViewController:[kAppDelegate loadFromVC:@"TopQuickSearchViewController"]] 
+             autorelease];
+            [NSThread sleepForTimeInterval:(300+arc4random()%700)/1000000.0];
+        }];
+    }else if(_typeFlag==1){//图片
+        [self.viewDeckController closeLeftViewBouncing:^(IIViewDeckController *controller) {
+            [kAppDelegate.temporaryValues setObject:@"0" forKey:@"beginDragging"];
+            controller.centerController = 
+            [[[UINavigationController alloc] 
+              initWithRootViewController:[kAppDelegate loadFromVC:@"PicListViewController"]] 
+             autorelease];
+            [NSThread sleepForTimeInterval:(300+arc4random()%700)/1000000.0];
+        }];
+    }else if(_typeFlag==2){//现货库存
+        [kAppDelegate.temporaryValues setObject:text forKey:@"stockType"];
+        
+        [self.viewDeckController closeLeftViewBouncing:^(IIViewDeckController *controller) {
+            [kAppDelegate.temporaryValues setObject:@"0" forKey:@"beginDragging"];
+            controller.centerController = 
+            [[[UINavigationController alloc] 
+              initWithRootViewController:[kAppDelegate loadFromVC:@"StockListViewController"]] 
+             autorelease];
+            [NSThread sleepForTimeInterval:(300+arc4random()%700)/1000000.0];
+        }];
+    }else if(_typeFlag==3){//订单
+        [kAppDelegate.temporaryValues setObject:text forKey:@"salesType"];
+        [self.viewDeckController closeLeftViewBouncing:^(IIViewDeckController *controller) {
+            [kAppDelegate.temporaryValues setObject:@"0" forKey:@"beginDragging"];
+            controller.centerController = 
+            [[[UINavigationController alloc] 
+              initWithRootViewController:[kAppDelegate loadFromVC:@"SalesListViewController"]] 
+             autorelease];
+            [NSThread sleepForTimeInterval:(300+arc4random()%700)/1000000.0];
+        }];
+    }
+
 }
 
 -(void)didSelectObject:(id)object atIndexPath:(NSIndexPath *)indexPath{
     [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
+    [_popTipView dismissAnimated:YES];
+    [kAppDelegate.temporaryValues setObject:@"%"forKey:@"stockType"];
+    [kAppDelegate.temporaryValues setObject:@"" forKey:@"salesType"];
     if ([[((TTTableTextItem*)object).text componentsSeparatedByString:@" "] count]>1) {
          NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
         [defaults removeObjectForKey:@"name"];
@@ -215,10 +265,10 @@
         [kAppDelegate removeControllers];
         return;
     }else if([((TTTableTextItem*)object).text isEqualToString:@"照片上传"]){
+        [kAppDelegate.temporaryValues setObject:@"0" forKey:@"picType"];
+        [kAppDelegate.temporaryValues setObject:@"" forKey:@"picRid"];
         [self.viewDeckController photoUp];
     }else if([((TTTableTextItem*)object).text isEqualToString:@"条码扫描"]){
-
-        
         [self.viewDeckController 
          presentModalViewController:[[[UINavigationController alloc] 
                                       initWithRootViewController:[kAppDelegate loadFromNib:@"EmbedReaderViewController"] ] 
@@ -235,56 +285,5 @@
     }
 }
 
--(void) actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex{
-	if (buttonIndex==0) {//相机
-		if([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]){
-			UIImagePickerController *camera = [[UIImagePickerController alloc] init];
-			camera.sourceType = UIImagePickerControllerSourceTypeCamera;
-			camera.allowsEditing = YES;
-			camera.delegate = self;
-			
-			[self.viewDeckController presentModalViewController:camera animated:YES];
-			//[self presentModalViewController:camera animated:YES];
-			[camera release];
-		}
-	}else if (buttonIndex ==1) {//相册
-		UIImagePickerController *picker = [[UIImagePickerController alloc] init];
-		picker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
-		picker.allowsEditing = YES;
-		picker.delegate = self;
-
-		[self.viewDeckController presentModalViewController:picker animated:YES];
-		[picker release];
-	}
-}
-
-- (void) imagePickerController:(UIImagePickerController *)picker
- didFinishPickingMediaWithInfo:(NSDictionary *)info {
-    [self.viewDeckController performSelector:@selector(toggleLeftView) withObject:nil afterDelay:0.0];
-	UIImage *image = [[info objectForKey:UIImagePickerControllerEditedImage] scaledCopyOfSize:CGSizeMake(600, 800)];
-	if (picker.sourceType == UIImagePickerControllerSourceTypeCamera) {
-		UIImageWriteToSavedPhotosAlbum(image, nil, nil, nil);//保存相册
-	}
-	[picker dismissModalViewControllerAnimated:NO];
-    
-    PhotoUpViewController *upController= (PhotoUpViewController*)[kAppDelegate 
-                                                                  loadFromVC:@"PhotoUpViewController"];
-    
-    upController.preview = image;
-    [self.viewDeckController presentModalViewController:[[[UINavigationController alloc] 
-                                                              initWithRootViewController:upController] 
-                                                             autorelease]
-                                               animated:YES];
-//	self.tabBar.frame = CGRectMake(0, CGRectGetHeight(self.view.bounds) - self.tabBarHeight, CGRectGetWidth(self.view.bounds), self.tabBarHeight);
-//	FollowUpViewController * upController = [[[FollowUpViewController alloc] init] autorelease];
-//	upController.upPiceView.image = image;
-	
-//	[self presentModalViewController:upController animated:NO];
-}
-
--(void) imagePickerControllerDidCancel:(UIImagePickerController *)picker{
-    [picker dismissModalViewControllerAnimated:YES];
-    [self.viewDeckController performSelector:@selector(toggleLeftView) withObject:nil afterDelay:0.0];
-}
 
 @end

@@ -80,7 +80,6 @@
     asiRequest.didFinishSelector = @selector(finishPoview:);
     asiRequest.didFailSelector = @selector(finishFail:);
 	[asiRequest startAsynchronous];
-    
 }
 
 
