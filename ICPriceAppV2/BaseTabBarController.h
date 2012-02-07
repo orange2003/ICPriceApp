@@ -7,7 +7,7 @@
 //
 
 
-@interface BaseTabBarController : TTViewController{
+@interface BaseTabBarController : TTTableViewController{
     UIView *contentContainerView;
 }
 @property (nonatomic, readonly) UIView *contentContainerView;

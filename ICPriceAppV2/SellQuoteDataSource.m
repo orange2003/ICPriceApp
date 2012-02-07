@@ -28,7 +28,7 @@
 
 
 -(NSString *)titleForEmpty{
-    return @"无记录返回";
+    return @"";
 }
 
 @end

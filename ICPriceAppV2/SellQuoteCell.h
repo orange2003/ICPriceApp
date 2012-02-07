@@ -6,7 +6,8 @@
 //  Copyright (c) 2012年 __MyCompanyName__. All rights reserved.
 //
 
+#import "BaseCell.h"
 
-@interface SellQuoteCell : TTTableTextItemCell
+@interface SellQuoteCell : BaseCell
 
 @end

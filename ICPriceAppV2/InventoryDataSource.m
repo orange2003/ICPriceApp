@@ -8,7 +8,7 @@
 
 #import "InventoryDataSource.h"
 #import "InventoryModel.h"
-#import "SellQuoteCell.h"
+#import "InventoryCell.h"
 @implementation InventoryDataSource
 
 - (id<TTModel>)model {
@@ -20,14 +20,14 @@
 
 -(Class) tableView:(UITableView *)tableView cellClassForObject:(id)object{
 	if ([object isMemberOfClass:[TTTableTextItem class]]) {
-		return [SellQuoteCell  class];
+		return [InventoryCell  class];
 	}else{
 		return [super tableView:tableView cellClassForObject:object];
 	}
 }
 
 -(NSString *)titleForEmpty{
-    return @"无记录返回";
+    return @"";
 }
 
 @end

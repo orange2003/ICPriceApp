@@ -36,10 +36,15 @@
     [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
     _ider = [((TTTableTextItem*)object).userInfo objectAtIndex:0];
     TSAlertView* av = [[[TSAlertView alloc] init] autorelease];
-	av.title = @"库存盘点";
+    //ID,箱号,数量,boxid
+    
+	av.title =[NSString stringWithFormat:@"%@ 数量改为",
+               [((TTTableTextItem*)object).userInfo objectAtIndex:1]];
     av.delegate = self;
     av.style =  TSAlertViewStyleInput;
 	av.message = @"";
+    av.inputTextField.text =[NSString stringWithFormat:@"%@",
+                              [((TTTableTextItem*)object).userInfo objectAtIndex:2]];
     av.inputTextField.keyboardType = UIKeyboardTypeNumberPad;
     [av addButtonWithTitle: [NSString stringWithFormat: @"确定"]];
     [av addButtonWithTitle: [NSString stringWithFormat: @"取消"]];

@@ -7,7 +7,7 @@
 //  快查
 #import "BaseTabBarController.h"
 @class ASIFormDataRequest;
-@interface QuickSearchViewController : BaseTabBarController<UITabBarDelegate>{
+@interface QuickSearchViewController : BaseTabBarController<UITabBarDelegate,UISearchBarDelegate>{
     UITabBar *_tabBars;
     ASIFormDataRequest *asiRequest;
 }

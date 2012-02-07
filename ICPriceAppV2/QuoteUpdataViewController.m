@@ -34,10 +34,14 @@
                                                        objectForKey:@"inquiry"]).quantity
 								forKeyPath:@"quantity"];
         
-        [self.formDataSource setModelValue:[NSArray arrayWithObject:
-                                            ((Inquiry*)[kAppDelegate.temporaryValues 
-                                                                objectForKey:@"inquiry"]).status]
-                                forKeyPath:@"status"];
+        if (((Inquiry*)[kAppDelegate.temporaryValues 
+                        objectForKey:@"inquiry"]).status) {
+            [self.formDataSource setModelValue:[NSArray arrayWithObject:
+                                                ((Inquiry*)[kAppDelegate.temporaryValues 
+                                                            objectForKey:@"inquiry"]).status]
+                                    forKeyPath:@"status"];
+        }
+
         
 		[self.formDataSource setModelValue:((Inquiry*)[kAppDelegate.temporaryValues 
                                                        objectForKey:@"inquiry"]).batch
@@ -47,9 +51,27 @@
     return  self;
 }
 
+-(void)backAction{
+    [self.navigationController popToRootViewControllerAnimated:YES];
+}
+
+
 - (void)loadView;
 {
 	[super loadView];
+    
+    TTButton *_loginButton = [TTButton buttonWithStyle:@"toolbarBackButton:" title:@"返回"];
+    [_loginButton addTarget:self action:@selector(backAction) 
+           forControlEvents:UIControlEventTouchUpInside];
+    _loginButton.frame = CGRectMake(0, 0, 50, 33);
+    
+    UIBarButtonItem *_back = [[UIBarButtonItem alloc] initWithCustomView:_loginButton];
+    
+    self.navigationItem.leftBarButtonItem = _back;
+    [_back release];
+    
+    self.title = [kAppDelegate.temporaryValues objectForKey:@"selectType"];
+    
 	UIBarButtonItem *rightItem = [[UIBarButtonItem alloc] 
                                   initWithTitle:@"保存"
                                   style:UIBarButtonItemStyleDone
@@ -67,7 +89,7 @@
 }
 
 -(void)quoteUpdata{
-    NSLog(@"price %@",[self.formDataSource.model objectForKey:@"price"]);
+    //NSLog(@"price %@",[self.formDataSource.model objectForKey:@"price"]);
     if (![self.formDataSource.model objectForKey:@"price"]||[[self.formDataSource.model objectForKey:@"price"] isEmptyOrWhitespace]) {
         [kAppDelegate alert:@"" message:@"请输入报价"];
         return;
@@ -143,8 +165,6 @@
     [self performSelector:@selector(backAction) withObject:nil afterDelay:1.6];
 }
 
--(void)backAction{
-    [self.navigationController popToRootViewControllerAnimated:YES];
-}
+
 
 @end

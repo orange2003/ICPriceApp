@@ -35,7 +35,21 @@
 		self.formDataSource = formDataSourcet;
 		[formDataSourcet release];
 		
-		IBAButtonFormField * supplier = [[IBAButtonFormField alloc] initWithTitle:@"选择型号"
+        NSString *_typeName = @"选择型号";
+        if ([[kAppDelegate.temporaryValues objectForKey:@"picType"] isEqualToString:@"0"]) {
+            self.title = @"图片上传";
+        }else if([[kAppDelegate.temporaryValues objectForKey:@"picType"] isEqualToString:@"1"]) {
+            self.title = @"图片上传(订单)";
+            self.type = [kAppDelegate.temporaryValues objectForKey:@"selectType"];
+            _typeName = [kAppDelegate.temporaryValues objectForKey:@"selectType"];
+        }else if([[kAppDelegate.temporaryValues objectForKey:@"picType"] isEqualToString:@"2"]) {
+            self.title = @"图片上传(库存)";
+            self.type = [kAppDelegate.temporaryValues objectForKey:@"selectType"];
+            _typeName = [kAppDelegate.temporaryValues objectForKey:@"selectType"];
+        }
+        
+        
+		IBAButtonFormField * supplier = [[IBAButtonFormField alloc] initWithTitle:_typeName
 																			 icon:nil
 																   executionBlock:^{
                                                                      TypePhotoSearchViewController *search=  (TypePhotoSearchViewController*)[kAppDelegate loadFromVC:@"TypePhotoSearchViewController"];
@@ -43,6 +57,7 @@
                                                                        [self presentModalViewController:search
                                                                                                animated:YES];
 																   }];
+        
 		[(IBAFormSection*)[self.formDataSource.sections objectAtIndex:0] 
 		 addFormField:[supplier autorelease]];
 		
@@ -58,7 +73,8 @@
 
 -(void)loadView{
     [super loadView];
-    self.title = @"图片上传";
+
+    
     
     UIBarButtonItem *_menu = [[UIBarButtonItem alloc] initWithTitle:@"取消" style:UIBarButtonItemStyleBordered target:self action:@selector(backAction)];
     self.navigationItem.leftBarButtonItem = _menu;

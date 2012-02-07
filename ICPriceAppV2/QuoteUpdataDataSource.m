@@ -41,11 +41,6 @@
 		style.valueTextAlignment = UITextAlignmentLeft;
 		basicFieldSection.formFieldStyle = style;
         
-        [basicFieldSection addFormField:[[[IBAReadOnlyTextFormField alloc] 
-                                          initWithKeyPath:@"readOnlyText" 
-                                          title:[kAppDelegate.temporaryValues objectForKey:@"selectType"]] 
-                                         autorelease]];
-        
         
         IBATextFormField *amountField = [[IBATextFormField alloc] initWithKeyPath:@"quantity"
 																			title:@" 数量:"];
@@ -59,14 +54,7 @@
 		[basicFieldSection addFormField:[amountField autorelease]];
 		[basicFieldSection addFormField:[moneyField autorelease]];
 		
-        if (isPhone) {
-			moneyField.textFormFieldCell.textField.keyboardType =UIKeyboardTypeNumberPad;
-			moneyField.textFormFieldCell.textField.delegate = self;
-			amountField.textFormFieldCell.textField.keyboardType = UIKeyboardTypeNumberPad;
-		}else {
-			moneyField.textFormFieldCell.textField.keyboardType =UIKeyboardTypeNumbersAndPunctuation;
-			amountField.textFormFieldCell.textField.keyboardType = UIKeyboardTypeNumbersAndPunctuation;
-		}
+
 		moneyField.textFormFieldCell.textField.placeholder = @"¥0.00";
         
         IBATextFormField *bath = [[IBATextFormField alloc] initWithKeyPath:@"batch"
@@ -74,6 +62,17 @@
         
 		
 		[basicFieldSection addFormField:[bath autorelease]];
+        
+        if (isPhone) {
+			moneyField.textFormFieldCell.textField.keyboardType =UIKeyboardTypeNumberPad;
+			moneyField.textFormFieldCell.textField.delegate = self;
+			amountField.textFormFieldCell.textField.keyboardType = UIKeyboardTypeNumberPad;
+            bath.textFormFieldCell.textField.keyboardType = UIKeyboardTypeNumberPad;
+		}else {
+			moneyField.textFormFieldCell.textField.keyboardType =UIKeyboardTypeNumbersAndPunctuation;
+			amountField.textFormFieldCell.textField.keyboardType = UIKeyboardTypeNumbersAndPunctuation;
+		}
+        
 		
 		NSArray *pickListOptions = [IBAPickListFormOption pickListOptionsForStrings:
 									[((NSMutableDictionary*)[kAppDelegate.constants objectAtIndex:2]) allKeys] ];

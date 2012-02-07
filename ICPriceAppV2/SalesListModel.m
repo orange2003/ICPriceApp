@@ -28,7 +28,7 @@
                              [kAppDelegate.temporaryValues objectForKey:@"salesType"],
                              kAppDelegate.user.ider,nil] forKey:@"Values"];
     
-   // NSLog(@"value %@",operationData);
+    // NSLog(@"value %@",operationData);
     
     [request.parameters  setValue:@"PRC" forKey:@"OperationCode"];
     [request.parameters  setValue:[operationData JSONString] forKey:@"OperationData"];

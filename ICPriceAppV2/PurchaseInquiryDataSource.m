@@ -7,7 +7,7 @@
 //
 
 #import "PurchaseInquiryDataSource.h"
-#import "SellQuoteCell.h"
+#import "PurchaseInquiryCell.h"
 #import "PurchaseInquiryModel.h"
 @implementation PurchaseInquiryDataSource
 
@@ -20,14 +20,14 @@
 
 -(Class) tableView:(UITableView *)tableView cellClassForObject:(id)object{
 	if ([object isMemberOfClass:[TTTableTextItem class]]) {
-		return [SellQuoteCell  class];
+		return [PurchaseInquiryCell  class];
 	}else{
 		return [super tableView:tableView cellClassForObject:object];
 	}
 }
 
 -(NSString *)titleForEmpty{
-    return @"无记录返回";
+    return @"";
 }
 
 @end

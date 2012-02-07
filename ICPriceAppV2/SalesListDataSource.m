@@ -39,4 +39,8 @@
 	}
 }
 
+-(NSString *)titleForEmpty{
+    return @"";
+}
+
 @end

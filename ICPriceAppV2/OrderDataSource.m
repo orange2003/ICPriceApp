@@ -8,7 +8,7 @@
 
 #import "OrderDataSource.h"
 #import "OrderModel.h"
-#import "SellQuoteCell.h"
+#import "OrderCell.h"
 @implementation OrderDataSource
 
 - (id<TTModel>)model {
@@ -20,14 +20,14 @@
 
 -(Class) tableView:(UITableView *)tableView cellClassForObject:(id)object{
 	if ([object isMemberOfClass:[TTTableTextItem class]]) {
-		return [SellQuoteCell  class];
+		return [OrderCell  class];
 	}else{
 		return [super tableView:tableView cellClassForObject:object];
 	}
 }
 
 -(NSString *)titleForEmpty{
-    return @"无记录返回";
+    return @"";
 }
 
 @end

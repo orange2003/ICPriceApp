@@ -26,7 +26,7 @@
 }
 
 -(void)viewWillAppear:(BOOL)animated{
-    NSLog(@"sss");
+    //NSLog(@"sss");
     [super viewWillAppear:animated];
 }
 

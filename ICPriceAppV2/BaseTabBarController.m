@@ -23,6 +23,7 @@
     contentContainerView = [[UIView alloc] initWithFrame:rect];
 	contentContainerView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
 	[self.view addSubview:contentContainerView];
+    self.dataSource = [TTListDataSource dataSourceWithObjects:[TTTableTextItem itemWithText:@""],nil];
     [contentContainerView release];
 }
 

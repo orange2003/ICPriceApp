@@ -33,7 +33,9 @@
     
     _searchController.searchBar.tintColor = [UIColor grayColor];
     _searchController.searchBar.placeholder = @"请输入型号";
-    //self.tableView.tableHeaderView = _searchController.searchBar;
+    self.tableView.tableHeaderView = _searchController.searchBar;
+    
+    [self.tableView setContentOffset:CGPointMake(0,44)];
     // Setup the title and image for each button within the side swipe view
     buttonData = [[NSArray arrayWithObjects:
                    [NSDictionary dictionaryWithObjectsAndKeys:@"图片上传", @"title", @"reply.png", @"image", nil],
@@ -47,28 +49,43 @@
 }
 
 
+-(BOOL)searchBarShouldBeginEditing:(UISearchBar *)searchBar{
+    [_searchController.searchBar performSelector:@selector(setText:) 
+                                      withObject:[kAppDelegate.temporaryValues objectForKey:@"searchText"]
+                                      afterDelay:0.0];
+    return YES;
+}
+
+
+-(void) searchBarBookmarkButtonClicked:(UISearchBar *)searchBar{
+	if (_searchController.active) {
+        if ([kAppDelegate.temporaryValues objectForKey:@"searchText"]&&
+            ![[kAppDelegate.temporaryValues objectForKey:@"searchText"] isEmptyOrWhitespace]) {
+            _searchController.searchBar.text = [kAppDelegate.temporaryValues objectForKey:@"searchText"];
+        }
+		
+	}
+}
+
+
 -(id <UITableViewDelegate>) createDelegate{
 	return [[[QuoteInquiryListDelegate alloc] initWithController:self] autorelease];
 }
 
 -(void)typeSelect:(NSString*)text{
-    [kAppDelegate.temporaryValues setObject:text
-                                     forKey:@"salesType"];
+    [kAppDelegate.temporaryValues setObject:text forKey:@"searchText"];
+    [kAppDelegate.temporaryValues setObject:text forKey:@"salesType"];
     [_searchController setActive:NO animated:YES ];
     [self reload];
-    [self performSelector:@selector(setText:) withObject:text afterDelay:0.0];
     
 }
 
--(void)setText:(NSString*)text{
-    _searchController.searchBar.text = text;
-}
+
 
 -(void) searchBarCancelButtonClicked:(UISearchBar *)searchBar{
     if (![[kAppDelegate.temporaryValues objectForKey:@"salesType"] isEqualToString:@""]
         && [searchBar.text isEmptyOrWhitespace]) {
-        [kAppDelegate.temporaryValues setObject:@""
-                                         forKey:@"salesType"];
+        [kAppDelegate.temporaryValues setObject:@"" forKey:@"salesType"];
         [self reload];
     }
 }
@@ -142,7 +159,9 @@
 - (IBAction) touchUpInsideAction:(UIButton*)button
 {
     NSUInteger index = [buttons indexOfObject:button];
-    
+    [kAppDelegate.temporaryValues setObject:
+     [((TTTableTextItem*)[kAppDelegate.temporaryValues objectForKey:@"swipRow"]).userInfo objectAtIndex:3] 
+                                     forKey:@"selectType"];
     switch (index) {
         case 0://图片上传
         {

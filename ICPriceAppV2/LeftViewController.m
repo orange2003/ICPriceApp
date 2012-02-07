@@ -87,7 +87,7 @@
                        [TTTableTextItem itemWithText:@"销售订单"],
                        [TTTableTextItem itemWithText:@"照片上传"],
                        [TTTableTextItem itemWithText:@"条码扫描"],
-                       [TTTableTextItem itemWithText:[NSString stringWithFormat:@"%@ 登出",kAppDelegate.user.name]],nil];
+                       [TTTableTextItem itemWithText:[NSString stringWithFormat:@"%@ 注销",kAppDelegate.user.name]],nil];
     
     self.searchViewController = [[[TypeSearchViewController alloc] init] autorelease];
 
@@ -165,17 +165,15 @@
     
 }
 
-
--(BOOL) searchBarShouldBeginEditing:(UISearchBar *)searchBar{
+-(BOOL)searchBarShouldBeginEditing:(UISearchBar *)searchBar{
     [_popTipView dismissAnimated:YES];
     self.viewDeckController.leftLedge = -10;
-    //[self performSelector:@selector(setTexts) withObject:nil afterDelay:0.0];
-    return  YES;
+    [_searchController.searchBar performSelector:@selector(setText:) 
+                                      withObject:[kAppDelegate.temporaryValues objectForKey:@"searchText"]
+                                      afterDelay:0.0];
+    return YES;
 }
 
--(void)setTexts{
-    _searchController.searchBar.text = @" ";
-}
 
 -(void) searchBarCancelButtonClicked:(UISearchBar *)searchBar{
     [_popTipView dismissAnimated:YES];
@@ -194,6 +192,10 @@
     [kAppDelegate.temporaryValues setObject:text
                                      forKey:@"selectType"];
     
+    [kAppDelegate.temporaryValues setObject:text
+                                     forKey:@"searchText"];
+    
+    
     [_searchController setActive:NO animated:NO ];
     
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
@@ -209,6 +211,7 @@
     [defaults synchronize];
     
     if (_typeFlag==0) {//快查
+        [kAppDelegate.temporaryValues setObject:@"3" forKey:@"quickType"];
         [self.viewDeckController closeLeftViewBouncing:^(IIViewDeckController *controller) {
             [kAppDelegate.temporaryValues setObject:@"0" forKey:@"beginDragging"];
             controller.centerController = 

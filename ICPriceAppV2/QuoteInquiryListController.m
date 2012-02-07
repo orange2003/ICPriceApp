@@ -28,9 +28,15 @@
 
 
 
+-(void)backAction{
+    [self.navigationController popToRootViewControllerAnimated:YES];
+}
+
 
 -(void)loadView{
     [super loadView];
+    
+    
     UIBarButtonItem *_menu = [[UIBarButtonItem alloc] initWithTitle:@"菜单" style:UIBarButtonItemStyleBordered target:self.viewDeckController action:@selector(toggleLeftView)];
     self.navigationItem.leftBarButtonItem = _menu;
     

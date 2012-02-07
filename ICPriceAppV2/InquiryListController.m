@@ -52,7 +52,6 @@
     buttonData = [[NSArray arrayWithObjects:
                    [NSDictionary dictionaryWithObjectsAndKeys:@"无货操作", @"title", @"reply.png", @"image", nil],
                    [NSDictionary dictionaryWithObjectsAndKeys:@"直接报价", @"title", @"reply.png", @"image", nil],
-                   [NSDictionary dictionaryWithObjectsAndKeys:@"图片上传", @"title", @"reply.png", @"image", nil],
                    [NSDictionary dictionaryWithObjectsAndKeys:@"图片浏览", @"title", @"reply.png", @"image", nil],
                    nil] retain];
     buttons = [[NSMutableArray alloc] initWithCapacity:buttonData.count];
@@ -137,14 +136,14 @@
         case 1://直接报价
             [self InquiryUp];
             break;
-        case 2://图片上传
-        {
-            [kAppDelegate.temporaryValues setObject:@"0" forKey:@"picType"];
-            [kAppDelegate.temporaryValues setObject:@"" forKey:@"picRid"];
-            [self.contentController.viewDeckController photoUp];
-            break;
-        }
-        case 3://图片浏览
+//        case 2://图片上传
+//        {
+//            [kAppDelegate.temporaryValues setObject:@"0" forKey:@"picType"];
+//            [kAppDelegate.temporaryValues setObject:@"" forKey:@"picRid"];
+//            [self.contentController.viewDeckController photoUp];
+//            break;
+//        }
+        case 2://图片浏览
         {
             [kAppDelegate.temporaryValues setObject:
              ((TTTableTextItem*)[kAppDelegate.temporaryValues objectForKey:@"swipRow"]).text 
@@ -247,6 +246,11 @@
         if (![((TTTableTextItem*)object).text isEmptyOrWhitespace]) {
             [kAppDelegate.temporaryValues setObject:((TTTableTextItem*)object).text
                                              forKey:@"selectType"];
+            [kAppDelegate.temporaryValues setObject:((TTTableTextItem*)object).text
+                                             forKey:@"searchText"];
+            
+            [kAppDelegate.temporaryValues setObject:@"0"
+                                             forKey:@"quickType"];
             
             NSArray * cells  = ((TTTableTextItem*)object).userInfo;
             //ID,cusInqId,型号,数量,批号,厂牌,suNote,分钟,平台

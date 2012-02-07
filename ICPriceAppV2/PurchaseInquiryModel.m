@@ -25,16 +25,16 @@
     
     [operationData setValue:@"up_PageView" forKey:@"ObjectName"];
     [operationData setValue:[NSArray arrayWithObjects:
-                             @"rfq.bodyCu_v",
+                             @"rfq.bodyCu_iphone",
                              [NSString stringWithFormat:@"%d",_page],
                              @"15",
-                             @"ID,型号,数量,cusPrice,批号,芯片状态ID,供货商助记,suId,cuNote,平台,采购,日期,suPrice,suPtId,parentId",
+                             @"ID,型号,数量,cusPrice,批号,chipstate,芯片状态ID,供货商助记,suId,cuNote,平台,采购,日期,suPrice,suPtId,parentId",
                              @"ID desc",
                              [NSString stringWithFormat:@"型号 like '%@%%' and 公司ID=%@",
                               [kAppDelegate.temporaryValues objectForKey:@"selectType"],
                               kAppDelegate.user.companyId],@"ID",@"1",nil] forKey:@"Values"];
     
-    // NSLog(@"value %@",operationData);
+    NSLog(@"value %@",operationData);
     
     [request.parameters  setValue:@"PRC" forKey:@"OperationCode"];
     [request.parameters  setValue:[operationData JSONString] forKey:@"OperationData"];

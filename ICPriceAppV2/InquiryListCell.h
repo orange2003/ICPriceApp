@@ -6,8 +6,7 @@
 //  Copyright (c) 2012年 __MyCompanyName__. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
+#import "BaseCell.h"
 
-@interface InquiryListCell : TTTableTextItemCell
-
+@interface InquiryListCell : BaseCell
 @end

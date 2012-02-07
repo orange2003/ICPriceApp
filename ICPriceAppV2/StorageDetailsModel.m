@@ -28,7 +28,7 @@
     [request.parameters  setValue:@"PRC" forKey:@"OperationCode"];
     [request.parameters  setValue:[operationData JSONString] forKey:@"OperationData"];
     
-    NSLog(@"value %@",operationData);
+   // NSLog(@"value %@",operationData);
     
     TTURLJSONResponse* response = [[TTURLJSONResponse alloc] init];
 	request.response = response;

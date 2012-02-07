@@ -44,7 +44,7 @@
     self.variableHeightRows = NO;
     self.tableView.rowHeight = 44;
     buttonData = [[NSArray arrayWithObjects:
-                   [NSDictionary dictionaryWithObjectsAndKeys:@"图片上传", @"title", @"reply.png", @"image", nil],
+                   [NSDictionary dictionaryWithObjectsAndKeys:@"快查查询", @"title", @"reply.png", @"image", nil],
                    [NSDictionary dictionaryWithObjectsAndKeys:@"图片浏览", @"title", @"reply.png", @"image", nil],
                    nil] retain];
     buttons = [[NSMutableArray alloc] initWithCapacity:buttonData.count];
@@ -115,12 +115,17 @@
     [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
     
     if ([self.contentController.viewDeckController leftControllerIsClosed]) {
+        
+        [kAppDelegate.temporaryValues setObject:@"1"
+                                         forKey:@"quickType"];
+        
+        
         [kAppDelegate.temporaryValues setObject:((TTTableTextItem*)object).text
                                          forKey:@"selectType"];
         
         
         NSArray * cells  = ((TTTableTextItem*)object).userInfo;
-        NSLog(@"cells %@",cells);
+       // NSLog(@"cells %@",cells);
         //ID,型号,数量,批号,厂牌, 目标价,备注,分钟,客户,采购员,芯片状态id
         Inquiry * inquiry = [[Inquiry alloc] init];
         inquiry.ider = [cells objectAtIndex:0];
@@ -147,11 +152,38 @@
     NSUInteger index = [buttons indexOfObject:button];
     
     switch (index) {
-        case 0://图片上传
+        case 0://快查查询
         {
-            [kAppDelegate.temporaryValues setObject:@"0" forKey:@"picType"];
-            [kAppDelegate.temporaryValues setObject:@"" forKey:@"picRid"];
-            [self.contentController.viewDeckController photoUp];
+            [kAppDelegate.temporaryValues setObject:@"1"
+                                             forKey:@"quickType"];
+            
+            [kAppDelegate.temporaryValues setObject:
+             ((TTTableTextItem*)[kAppDelegate.temporaryValues objectForKey:@"swipRow"]).text 
+                                             forKey:@"selectType"];
+            
+            [kAppDelegate.temporaryValues setObject:
+             ((TTTableTextItem*)[kAppDelegate.temporaryValues objectForKey:@"swipRow"]).text 
+                                             forKey:@"searchText"];
+            
+            
+            NSArray * cells  =((TTTableTextItem*)[kAppDelegate.temporaryValues objectForKey:@"swipRow"]).userInfo;
+            // NSLog(@"cells %@",cells);
+            //ID,型号,数量,批号,厂牌, 目标价,备注,分钟,客户,采购员,芯片状态id
+            Inquiry * inquiry = [[Inquiry alloc] init];
+            inquiry.ider = [cells objectAtIndex:0];
+            //inquiry.cusInqID = [cells objectAtIndex:1];
+            inquiry.type= [(NSString*)[cells objectAtIndex:1] uppercaseString];
+            inquiry.quantity= [cells objectAtIndex:2];
+            inquiry.price = [cells objectAtIndex:5];
+            inquiry.batch = [cells objectAtIndex:3];
+            inquiry.status = [cells objectAtIndex:10];
+            inquiry.brand = [cells objectAtIndex:4];
+            [kAppDelegate.temporaryValues setObject:inquiry forKey:@"inquiry"];
+            [inquiry release];
+            
+            [self.contentController.navigationController
+             pushViewController:[kAppDelegate loadFromVC:@"QuickSearchViewController"]
+             animated:YES];
             break;
         }
         case 1://图片浏览

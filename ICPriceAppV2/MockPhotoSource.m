@@ -102,6 +102,10 @@
 
 - (void)requestDidFinishLoad:(TTURLRequest*)request {
 	TTURLJSONResponse* response = request.response;
+    if ([_photos count]>0) {
+        TT_RELEASE_SAFELY(_photos);
+        _photos = [[NSMutableArray alloc] init];
+    }
 	//TTDASSERT([response.rootObject isKindOfClass:[NSDictionary class]]);
 	
 	NSDictionary* feed = response.rootObject;

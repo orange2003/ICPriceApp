@@ -34,7 +34,7 @@
 - (id)initWithModel:(id)aModel {
 	if (self = [super initWithModel:aModel]) {
 		
-		IBAFormSection *buttonsSection = [self addSectionWithHeaderTitle: ((Inquiry*)[kAppDelegate.temporaryValues objectForKey:@"inquiry"]).type footerTitle:nil];
+		IBAFormSection *buttonsSection = [self addSectionWithHeaderTitle: @"" footerTitle:nil];
 
 		IBAFormFieldStyle *buttonStyle = [[[IBAFormFieldStyle alloc] init] autorelease];
 		buttonStyle.labelTextColor = [UIColor colorWithRed:0.318 green:0.400 blue:0.569 alpha:1.0];
@@ -67,14 +67,6 @@
 		[basicFieldSection addFormField:[amountField autorelease]];
 		[basicFieldSection addFormField:[moneyField autorelease]];
 		
-        if (isPhone) {
-			moneyField.textFormFieldCell.textField.keyboardType =UIKeyboardTypeNumberPad;
-			moneyField.textFormFieldCell.textField.delegate = self;
-			amountField.textFormFieldCell.textField.keyboardType = UIKeyboardTypeNumberPad;
-		}else {
-			moneyField.textFormFieldCell.textField.keyboardType =UIKeyboardTypeNumbersAndPunctuation;
-			amountField.textFormFieldCell.textField.keyboardType = UIKeyboardTypeNumbersAndPunctuation;
-		}
 		moneyField.textFormFieldCell.textField.placeholder = @"¥0.00";
 		
         IBATextFormField *bath = [[IBATextFormField alloc] initWithKeyPath:@"batch"
@@ -83,6 +75,16 @@
 		
 		[basicFieldSection addFormField:[bath autorelease]];
 		
+        if (isPhone) {
+			moneyField.textFormFieldCell.textField.keyboardType =UIKeyboardTypeNumberPad;
+			moneyField.textFormFieldCell.textField.delegate = self;
+			amountField.textFormFieldCell.textField.keyboardType = UIKeyboardTypeNumberPad;
+            bath.textFormFieldCell.textField.keyboardType = UIKeyboardTypeNumberPad;
+		}else {
+			moneyField.textFormFieldCell.textField.keyboardType =UIKeyboardTypeNumbersAndPunctuation;
+			amountField.textFormFieldCell.textField.keyboardType = UIKeyboardTypeNumbersAndPunctuation;
+		}
+        
 		NSArray *pickListOptions = [IBAPickListFormOption pickListOptionsForStrings:
 									[((NSMutableDictionary*)[kAppDelegate.constants objectAtIndex:2]) allKeys] ];
         
@@ -140,11 +142,7 @@
 }
 
 -(CGFloat)heightForHeaderInSection:(NSInteger)section{
-    if (section==1) {
-        return 0;
-    }else{
-        return 20;
-    }
+    return 0;
 } 
 
 -(CGFloat)heightForFooterInSection:(NSInteger)section{

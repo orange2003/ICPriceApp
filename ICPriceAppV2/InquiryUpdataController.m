@@ -19,9 +19,11 @@
 #import "ASIFormDataRequest.h"
 #import "JSONKit.h"
 #import "NSStringAdditions.h"
+#import "MyIBAButtonFormField.h"
 @implementation InquiryUpdataController
 
 @synthesize type = _type;
+@synthesize conts = _conts;
 @synthesize contact;
 
 //=========================================================== 
@@ -29,6 +31,10 @@
 //=========================================================== 
 - (void)dealloc
 {
+    
+    
+    [_conts release];
+    _conts = nil;
     [_type release];
     _type = nil;
 	[contact release];
@@ -39,7 +45,8 @@
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
 	if (self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil]) {
-		self.title = @"询价更新";
+        
+		self.title = ((Inquiry*)[kAppDelegate.temporaryValues objectForKey:@"inquiry"]).type;
 		NSMutableDictionary *formModel = [[[NSMutableDictionary alloc] init] autorelease];
 		InquiryUpdataDataSource *formDataSourcet = [[InquiryUpdataDataSource alloc] initWithModel:formModel] ;
 		self.formDataSource = formDataSourcet;
@@ -53,9 +60,11 @@
                                                        objectForKey:@"inquiry"]).batch
 								forKeyPath:@"batch"];
 		
-		[self.formDataSource setModelValue:[NSArray arrayWithObject:((Inquiry*)[kAppDelegate.temporaryValues 
-                                                                                objectForKey:@"inquiry"]).batch]
-													forKeyPath:@"status"];
+
+        
+//		[self.formDataSource setModelValue:[NSArray arrayWithObject:((Inquiry*)[kAppDelegate.temporaryValues 
+//                                                                                objectForKey:@"inquiry"]).status]
+//													forKeyPath:@"status"];
 //        NSLog(@"supplier %@",((Inquiry*)[kAppDelegate.temporaryValues 
 //                                         objectForKey:@"inquiry"]).supplier);
         
@@ -94,6 +103,22 @@
 		}
 	}
 	return self;
+}
+
+
+-(void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
+    ob  = [[NSNotificationCenter defaultCenter] addObserverForName:@"buttonContactAction"
+                                                            object:nil
+                                                             queue:nil 
+                                                        usingBlock:^(NSNotification *notification){
+                                                            [self buttonContactAction];
+                                                        }];
+}
+
+-(void)viewWillDisappear:(BOOL)animated{
+    [super viewWillDisappear:animated];
+    [[NSNotificationCenter defaultCenter] removeObserver:ob];
 }
 
 
@@ -148,7 +173,7 @@
 	
 	IBAFormSection *section = (IBAFormSection*)[self.formDataSource.sections objectAtIndex:0];
 	[section.formFields removeAllObjects];
-	IBAButtonFormField * supplier = [[IBAButtonFormField alloc] initWithTitle:((Inquiry*)[kAppDelegate.temporaryValues 
+	MyIBAButtonFormField * supplier = [[MyIBAButtonFormField alloc] initWithTitle:((Inquiry*)[kAppDelegate.temporaryValues 
                                                                                           objectForKey:@"inquiry"]).supplierName
 																		 icon:nil
 															   executionBlock:^{
@@ -166,46 +191,49 @@
 																   
                                                                    [self presentModalViewController:[kAppDelegate loadFromVC:@"SupplierSearchViewController"]
                                                                                            animated:YES];
-																   
-																   
 															   }];
 	[section addFormField:[supplier autorelease]];
     
-
     
-    IBAButtonFormField * contactButton = [[IBAButtonFormField alloc] initWithTitle:@"商家联系人"
-                                                                              icon:nil
-                                                                    executionBlock:^{
-                                                                        UIActionSheet *actionSheet = nil;
-                                                                        actionSheet = [[UIActionSheet alloc] initWithTitle:nil
-                                                                                                                  delegate:self 
-                                                                                                         cancelButtonTitle:@"取消"
-                                                                                                    destructiveButtonTitle:nil
-                                                                                                         otherButtonTitles:nil,nil];
-                                                                        
-                                                                        for (NSArray *cont  in [data objectForKey:@"OutputTable"]) {
-                                                                            NSString *_tit = [NSString stringWithFormat:@"%@ %@ %@ %@",
-                                                                             [cont objectAtIndex:4],
-                                                                             [cont objectAtIndex:2],
-                                                                             [(NSString*)[cont objectAtIndex:3] 
-                                                                              isEqualToString:@"m"]?
-                                                                                              @"男":@"女",[cont objectAtIndex:6]];
-                                                                             [actionSheet addButtonWithTitle:_tit];
-
-                                                                        }
-                                                                        
-                                                                        actionSheet.actionSheetStyle = UIActionSheetStyleBlackTranslucent;
-                                                                        [actionSheet showInView:self.tableView];
-                                                                        [actionSheet release];
-                                                                    }];
-    [section addFormField:contactButton];
-    [contactButton release];
+    self.conts = [data objectForKey:@"OutputTable"];
+    
+//    IBAButtonFormField * contactButton = [[IBAButtonFormField alloc] initWithTitle:@"商家联系人"
+//                                                                              icon:nil
+//                                                                    executionBlock:^{
+//                                                                       
+//                                                                    }];
+//    [section addFormField:contactButton];
+//    [contactButton release];
 	
 	[self.tableView reloadSections:[NSIndexSet indexSetWithIndex:0]
 				  withRowAnimation:UITableViewRowAnimationNone];
 	
 }
 
+
+-(void)buttonContactAction{
+    UIActionSheet *actionSheet = nil;
+    actionSheet = [[UIActionSheet alloc] initWithTitle:nil
+                                              delegate:self 
+                                     cancelButtonTitle:@"取消"
+                                destructiveButtonTitle:nil
+                                     otherButtonTitles:nil,nil];
+    
+    for (NSArray *cont  in self.conts) {
+        NSString *_tit = [NSString stringWithFormat:@"%@ %@ %@ %@",
+                          [cont objectAtIndex:4],
+                          [cont objectAtIndex:2],
+                          [(NSString*)[cont objectAtIndex:3] 
+                           isEqualToString:@"m"]?
+                          @"男":@"女",[cont objectAtIndex:6]];
+        [actionSheet addButtonWithTitle:_tit];
+        
+    }
+    
+    actionSheet.actionSheetStyle = UIActionSheetStyleBlackTranslucent;
+    [actionSheet showInView:self.tableView];
+    [actionSheet release];
+}
 
 
 -(void) actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex{
@@ -314,6 +342,10 @@
     [self performSelector:@selector(backAction) withObject:nil afterDelay:1.6];
 }
 
+-(void)goAction{
+    [self.navigationController popViewControllerAnimated:YES];
+}
+
 -(void)backAction{
     [self.navigationController popToRootViewControllerAnimated:YES];
 }
@@ -321,6 +353,17 @@
 - (void)loadView;
 {
 	[super loadView];
+    
+    TTButton *_loginButton = [TTButton buttonWithStyle:@"toolbarBackButton:" title:@"返回"];
+    [_loginButton addTarget:self action:@selector(goAction) 
+           forControlEvents:UIControlEventTouchUpInside];
+    _loginButton.frame = CGRectMake(0, 0, 50, 33);
+    
+    UIBarButtonItem *_back = [[UIBarButtonItem alloc] initWithCustomView:_loginButton];
+    
+    self.navigationItem.leftBarButtonItem = _back;
+    [_back release];
+    
 	UIBarButtonItem *rightItem = [[UIBarButtonItem alloc] 
 								 initWithTitle:@"保存"
 								 style:UIBarButtonItemStyleDone

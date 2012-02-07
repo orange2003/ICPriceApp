@@ -7,6 +7,6 @@
 //  销售报价
 
 #import "SideSwipeTableViewController.h"
-@interface SellQuoteViewController : SideSwipeTableViewController
+@interface SellQuoteViewController : SideSwipeTableViewController<UISearchBarDelegate>
 
 @end

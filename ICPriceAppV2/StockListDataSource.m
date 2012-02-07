@@ -26,7 +26,9 @@
 	}
 }
 
-
+-(NSString *)titleForEmpty{
+    return @"";
+}
 
 
 @end

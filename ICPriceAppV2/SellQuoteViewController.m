@@ -8,7 +8,7 @@
 
 #import "SellQuoteViewController.h"
 #import "SellQuoteDataSource.h"
-#import "QuickSearchDelegate.h"
+#import "QuickSearchDelegate.h""
 @implementation SellQuoteViewController
 
 -(void)loadView{

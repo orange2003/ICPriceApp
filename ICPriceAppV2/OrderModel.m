@@ -28,7 +28,7 @@
                              @"po.BodyHead_iphone",
                              [NSString stringWithFormat:@"%d",_page],
                              @"15",
-                             @"ID,型号,type,数量,货币符号,售价,批号,厂牌,pckpins,芯片状态,cuOrderNote,suOrderNote,commonNote,日期,作者,平台,客户平台,cuPtId,平台ID,客户ID,suId,销售ID,采购ID,状态ID",
+                             @"ID,型号,type,数量,货币符号,售价,批号,厂牌,pckpins,芯片状态,cusName,cuOrderNote,suOrderNote,commonNote,日期,作者,平台,客户平台,cuPtId,平台ID,客户ID,suId,销售ID,采购ID,状态ID",
                              @"ID desc",
                              [NSString stringWithFormat:@"型号 like '%@%%' and (客户ID=%@ or suid=%@)",
                               [kAppDelegate.temporaryValues objectForKey:@"selectType"],

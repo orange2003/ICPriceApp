@@ -12,7 +12,10 @@
 	NSString* _type;
 	Contact *contact;
 	NSString* phone;
+    NSArray *_conts;
+    id ob;
 }
 @property (nonatomic, copy) NSString *type;
+@property (nonatomic, copy) NSArray *conts;
 @property (nonatomic, retain) Contact *contact;
 @end

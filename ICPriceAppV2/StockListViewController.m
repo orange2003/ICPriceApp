@@ -12,6 +12,7 @@
 #import "TypeSearchDataSource.h"
 #import "QuoteInquiryListDelegate.h"
 #import "StockListDataSource.h"
+#import "NSStringAdditions.h"
 #define BUTTON_LEFT_MARGIN 10.0
 #define BUTTON_SPACING 10
 @implementation StockListViewController
@@ -31,7 +32,10 @@
     
     _searchController.searchBar.tintColor = [UIColor grayColor];
     _searchController.searchBar.placeholder = @"请输入型号";
-   // self.tableView.tableHeaderView = _searchController.searchBar;
+    self.tableView.tableHeaderView = _searchController.searchBar;
+
+    
+    [self.tableView setContentOffset:CGPointMake(0,44)];
     // Setup the title and image for each button within the side swipe view
     buttonData = [[NSArray arrayWithObjects:
                    [NSDictionary dictionaryWithObjectsAndKeys:@"图片上传", @"title", @"reply.png", @"image", nil],
@@ -45,12 +49,30 @@
 }
 
 
+-(BOOL)searchBarShouldBeginEditing:(UISearchBar *)searchBar{
+    [_searchController.searchBar performSelector:@selector(setText:) 
+                                      withObject:[kAppDelegate.temporaryValues objectForKey:@"searchText"]
+                                      afterDelay:0.0];
+    return YES;
+}
+
+
+-(void) searchBarBookmarkButtonClicked:(UISearchBar *)searchBar{
+	if (_searchController.active) {
+        if ([kAppDelegate.temporaryValues objectForKey:@"searchText"]&&
+            ![[kAppDelegate.temporaryValues objectForKey:@"searchText"] isEmptyOrWhitespace]) {
+            _searchController.searchBar.text = [kAppDelegate.temporaryValues objectForKey:@"searchText"];
+        }
+		
+	}
+}
+
+
 -(void)typeSelect:(NSString*)text{
-    [kAppDelegate.temporaryValues setObject:text
-                                     forKey:@"stockType"];
-    
+    [kAppDelegate.temporaryValues setObject:text forKey:@"searchText"];
+    [kAppDelegate.temporaryValues setObject:text forKey:@"stockType"];
     [_searchController setActive:NO animated:NO ];
-    _searchController.searchBar.text = text;
+    
     [self reload];
     
 }
@@ -63,9 +85,7 @@
     }
 }
 
--(BOOL) searchBarShouldEndEditing:(UISearchBar *)searchBar{
-    return YES;
-}
+
 
 
 -(void)didSelectObject:(id)object atIndexPath:(NSIndexPath *)indexPath{
@@ -147,11 +167,12 @@
 - (IBAction) touchUpInsideAction:(UIButton*)button
 {
     NSUInteger index = [buttons indexOfObject:button];
-    
+    [kAppDelegate.temporaryValues setObject:
+     [((TTTableTextItem*)[kAppDelegate.temporaryValues objectForKey:@"swipRow"]).userInfo objectAtIndex:1] 
+                                     forKey:@"selectType"];
     switch (index) {
         case 0://图片上传
         {
-            
             [kAppDelegate.temporaryValues setObject:@"2" forKey:@"picType"];
             [kAppDelegate.temporaryValues setObject:[((TTTableTextItem*)[kAppDelegate.temporaryValues objectForKey:@"swipRow"]).userInfo objectAtIndex:0] forKey:@"picRid"];
             [self.viewDeckController photoUp];
@@ -159,9 +180,7 @@
         }
         case 1://图片浏览
         {
-            [kAppDelegate.temporaryValues setObject:
-             [((TTTableTextItem*)[kAppDelegate.temporaryValues objectForKey:@"swipRow"]).userInfo objectAtIndex:1] 
-                                             forKey:@"selectType"];
+
             
             [self.navigationController pushViewController:[kAppDelegate loadFromVC:@"QuickPicListViewController"] 
                                                                    animated:YES];

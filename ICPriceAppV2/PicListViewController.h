@@ -6,6 +6,6 @@
 //  Copyright (c) 2012年 __MyCompanyName__. All rights reserved.
 //  图片列表
 
-@interface PicListViewController : TTThumbsViewController
+@interface PicListViewController : TTThumbsViewController<UISearchBarDelegate>
 
 @end

@@ -13,6 +13,9 @@
 #import "ASIFormDataRequest.h"
 #import "JSONKit.h"
 #import "User.h"
+#import "TypeSearchViewController.h"
+#import "TypeSearchDataSource.h"
+#import "NSStringAdditions.h"
 @implementation QuickSearchViewController
 
 -(void)dealloc{
@@ -26,7 +29,27 @@
 
 -(void)loadView{
     [super loadView];
+    UITapGestureRecognizer* singleRecognizer; 
+    singleRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self 
+                                                               action:@selector(handleSingleTapFrom)]; 
+    singleRecognizer.numberOfTapsRequired = 2; // 双击 
+    [self.view addGestureRecognizer:singleRecognizer];
+    [singleRecognizer release];
+    
     self.title = [kAppDelegate.temporaryValues objectForKey:@"selectType"];
+    
+    self.searchViewController = [[[TypeSearchViewController alloc] init] autorelease];
+	self.searchViewController.dataSource = [[[TypeSearchDataSource alloc] init] autorelease];
+	_searchController.searchBar.delegate = self;
+    
+    _searchController.searchBar.tintColor = [UIColor grayColor];
+    _searchController.searchBar.placeholder = @"请输入型号";
+    self.tableView.tableHeaderView = _searchController.searchBar;
+    
+    if (![[kAppDelegate.temporaryValues objectForKey:@"quickType"] isEqualToString:@"3"]) {
+        UIBarButtonItem *_menu = [[UIBarButtonItem alloc] initWithTitle:@"报价" style:UIBarButtonItemStyleBordered target:self action:@selector(priceAction)];
+        self.navigationItem.rightBarButtonItem = _menu;
+    }
     
     _tabBars = [[UITabBar alloc] initWithFrame:CGRectMake(-1, 367, 321, 49)];
     [self.view addSubview:_tabBars];
@@ -62,7 +85,58 @@
                             nil ];
      _tabBars.selectedItem = [_tabBars.items objectAtIndex:0];
     
+    [self quickCnts];
+}
 
+-(void)handleSingleTapFrom{
+
+    [UIView beginAnimations:@"" context:nil];
+    if (self.contentContainerView.frame.origin.y==44) {
+        self.contentContainerView.frame = CGRectMake(0, 0, 320, 367);
+    }else{
+        self.contentContainerView.frame = CGRectMake(0, 44, 320, 367);
+    }
+    
+	[UIView setAnimationDuration:0.5];
+	[UIView commitAnimations];
+}
+
+-(BOOL)searchBarShouldBeginEditing:(UISearchBar *)searchBar{
+    [_searchController.searchBar performSelector:@selector(setText:) 
+                                      withObject:[kAppDelegate.temporaryValues objectForKey:@"searchText"]
+                                      afterDelay:0.0];
+    return YES;
+}
+
+
+
+
+-(void) searchBarBookmarkButtonClicked:(UISearchBar *)searchBar{
+	if (_searchController.active) {
+        if ([kAppDelegate.temporaryValues objectForKey:@"searchText"]&&
+            ![[kAppDelegate.temporaryValues objectForKey:@"searchText"] isEmptyOrWhitespace]) {
+            _searchController.searchBar.text = [kAppDelegate.temporaryValues objectForKey:@"searchText"];
+        }
+	}
+}
+
+
+-(void)typeSelect:(NSString*)text{
+    [kAppDelegate.temporaryValues setObject:text forKey:@"searchText"];
+    [kAppDelegate.temporaryValues setObject:text
+                                     forKey:@"selectType"];
+    self.title = text;
+    [_searchController setActive:NO animated:NO ];
+    [self quickCnts];
+    
+    for (TTTableViewController *controller in self.viewControllers) {
+        [controller reload];
+    }
+    
+    
+}
+
+-(void)quickCnts{
     asiRequest = [[ASIFormDataRequest requestWithURL:[NSURL URLWithString:kRESTBaseUrl]] retain];
     NSMutableDictionary *operationData = [NSMutableDictionary dictionary];
     
@@ -82,6 +156,15 @@
 	[asiRequest startAsynchronous];
 }
 
+-(void)priceAction{
+    if ([[kAppDelegate.temporaryValues objectForKey:@"quickType"] isEqualToString:@"0"]) {
+        [self.navigationController pushViewController:[kAppDelegate loadFromVC:@"InquiryUpdataController"] 
+                                                               animated:YES];
+    }else if([[kAppDelegate.temporaryValues objectForKey:@"quickType"] isEqualToString:@"1"]){
+        [self.navigationController pushViewController:[kAppDelegate loadFromVC:@"QuoteUpdataViewController"] 
+                                                               animated:YES];
+    }
+}
 
 -(void)finishFail:(ASIHTTPRequest *)request{
 	NSLog(@"request Fail");

@@ -24,6 +24,8 @@
 
 -(void)didSelectObject:(id)object atIndexPath:(NSIndexPath *)indexPath{
     [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
+    if ([[kAppDelegate.temporaryValues objectForKey:@"quickType"] isEqualToString:@"3"])
+        return;
     //NSLog(@"userinfo %@",((TTTableTextItem*)object).userInfo);
     //ID,型号,数量,cusPrice,批号,chipstate,供货商助记,suId,cuNote,平台,采购,日期, suPrice,suPtId,parentId
     ((Inquiry*)[kAppDelegate.temporaryValues 
@@ -35,8 +37,19 @@
     ((Inquiry*)[kAppDelegate.temporaryValues 
                 objectForKey:@"inquiry"]).platform = [NSString stringWithFormat:@"%@",[((TTTableTextItem*)object).userInfo objectAtIndex:13]];
     
-    [self.contentController.navigationController pushViewController:[kAppDelegate loadFromVC:@"InquiryUpdataController"] 
-                                                           animated:YES];
+    ((Inquiry*)[kAppDelegate.temporaryValues 
+                objectForKey:@"inquiry"]).batch = [NSString stringWithFormat:@"%@",[((TTTableTextItem*)object).userInfo objectAtIndex:4]];
+    
+    
+    if ([[kAppDelegate.temporaryValues objectForKey:@"quickType"] isEqualToString:@"0"]) {
+        [self.contentController.navigationController pushViewController:[kAppDelegate loadFromVC:@"InquiryUpdataController"] 
+                                                               animated:YES];
+    }else if([[kAppDelegate.temporaryValues objectForKey:@"quickType"] isEqualToString:@"1"]){
+        [self.contentController.navigationController pushViewController:[kAppDelegate loadFromVC:@"QuoteUpdataViewController"] 
+                                                               animated:YES];
+    }
+    
+
     
 }
 
