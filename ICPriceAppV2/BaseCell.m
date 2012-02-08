@@ -24,22 +24,26 @@
 -(void)layoutSubviews{
     [super layoutSubviews];
     self.icon.frame = CGRectMake(5, 8, 16, 16);
+    
+    CGSize textSize = [self.textLabel.text sizeWithFont:[UIFont boldSystemFontOfSize: 15]];
+    CGSize dateSize =[self.dateLabel.text sizeWithFont:[UIFont boldSystemFontOfSize: 13]];
+    CGSize badgeSize = [self.badgeString sizeWithFont:[UIFont boldSystemFontOfSize: 11]];
     if (self.icon.hidden) {
         self.textLabel.frame = CGRectMake(10, 3, 173, 22);
         self.secondLable.frame = CGRectMake(10, 27, 275, 15);
+        self.badge.frame = CGRectMake((textSize.width+12), 5, badgeSize.width+13, 18);
     }else{
         self.textLabel.frame = CGRectMake(23, 3, 173, 22);
         self.secondLable.frame = CGRectMake(23, 27, 275, 15);
+        self.badge.frame = CGRectMake((textSize.width+22), 5, badgeSize.width+13, 18);
     }
-     
-    
-    
-    
-    CGSize dateSize =[self.dateLabel.text sizeWithFont:[UIFont boldSystemFontOfSize: 13]];
-    CGSize badgeSize = [self.badgeString sizeWithFont:[UIFont boldSystemFontOfSize: 11]];
-    self.badge.frame = CGRectMake((320-dateSize.width-10-(badgeSize.width+13)), 5, badgeSize.width+13, 18);
     
     self.dateLabel.frame = CGRectMake((320-dateSize.width-5), 8, dateSize.width, 15);
+}
+
+-(void)setObject:(id)object{
+    [super setObject:object];
+    self.badgeColor = [UIColor grayColor];
 }
 
 -(UILabel *)secondLable{
@@ -81,25 +85,25 @@
 		
 	} else if (elapsed < TT_MINUTE) {
 		int seconds = (int)(elapsed);
-		return [NSString stringWithFormat:@"%d秒前", seconds];
+		return [NSString stringWithFormat:@"%d秒", seconds];
 		
 	} else if (elapsed < 2*TT_MINUTE) {
-		return TTLocalizedString(@"about a minute ago", @"");
+		return @"一分钟";
 		
 	} else if (elapsed < TT_HOUR) {
 		int mins = (int)(elapsed/TT_MINUTE);
-		return [NSString stringWithFormat:TTLocalizedString(@"%d minutes ago", @""), mins];
+		return [NSString stringWithFormat:@"%d分钟", mins];
 		
 	} else if (elapsed < TT_HOUR*1.5) {
-		return TTLocalizedString(@"about an hour ago", @"");
+		return @"一个小时";
 		
 	} else if (elapsed < TT_DAY) {
 		int hours = (int)((elapsed+TT_HOUR/2)/TT_HOUR);
-		return [NSString stringWithFormat:TTLocalizedString(@"%d hours ago", @""), hours];
+		return [NSString stringWithFormat:@"%d小时", hours];
 		
 	}  else  {
 		int day = (int)(elapsed/TT_DAY);
-		return [NSString stringWithFormat:@"%d天前", day];
+		return [NSString stringWithFormat:@"%d天", day];
 		
 	}
 }

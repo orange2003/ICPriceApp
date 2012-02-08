@@ -19,10 +19,16 @@
     
     self.icon.hidden = YES;
 
+    self.textLabel.font = [UIFont systemFontOfSize:15];
     
-   
+    NSDateFormatter* dateFormatter = [[NSDateFormatter alloc] init];
+	[dateFormatter setTimeStyle:NSDateFormatterFullStyle];
+	[dateFormatter setDateFormat:@"yyyy-MM-dd"];
     
-    self.dateLabel.text = [self formatRelativeTime:[((TTTableTextItem*)_item).userInfo objectAtIndex:3]];
+    self.dateLabel.text = [NSString stringWithFormat:@"%@",
+                           [dateFormatter stringFromDate:[NSDate dateWithTimeIntervalSince1970:([[[((TTTableTextItem*)_item).userInfo 
+                                                                                                   objectAtIndex:12] 
+                                                                                                  substringWithRange:NSMakeRange(6, 10)] intValue]+60*60*8)]]];
     self.badge.radius = 9;
     self.badgeString = [NSString stringWithFormat:@"%@",[((TTTableTextItem*)_item).userInfo objectAtIndex:2]];
     //批号,chipstate,供货商助记cuNote,平台,采购

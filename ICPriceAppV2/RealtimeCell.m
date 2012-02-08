@@ -24,6 +24,8 @@
 	[dateFormatter setTimeStyle:NSDateFormatterFullStyle];
 	[dateFormatter setDateFormat:@"yyyy-MM-dd"];
     
+    NSLog(@"date %@",[[((TTTableTextItem*)_item).userInfo objectAtIndex:8] class]);
+    
     self.dateLabel.text = [NSString stringWithFormat:@"%@",
                            [dateFormatter stringFromDate:[NSDate dateWithTimeIntervalSince1970:([[[((TTTableTextItem*)_item).userInfo 
                                                                                                    objectAtIndex:8] 

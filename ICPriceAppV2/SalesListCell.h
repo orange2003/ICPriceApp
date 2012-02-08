@@ -8,6 +8,8 @@
 
 #import "BaseCell.h"
 
-@interface SalesListCell : BaseCell
-
+@interface SalesListCell : BaseCell{
+    UILabel *_thirdLabel;
+}
+@property (nonatomic, readonly)UILabel *thirdLabel;
 @end
